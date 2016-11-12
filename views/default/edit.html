@@ -1,0 +1,19 @@
+{{extend 'layout.html'}}
+
+<div class="mycontent">
+
+    <div class="button_list">
+    {{for b in button_list:}}
+        <div class="top_button">{{=b}}</div>
+    {{pass}}
+    </div>
+    {{if form_type == 'view':}}
+    <div>{{=cl.title}}</div>
+    {{for i in item_list:}}
+        <div><i class="fa fa-square"></i> {{=i}}</div>
+    {{pass}}
+    {{else:}}
+    {{=form}}
+    {{pass}}
+
+</div>

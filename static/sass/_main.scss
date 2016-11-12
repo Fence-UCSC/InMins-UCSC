@@ -1,0 +1,33 @@
+.colorful {
+  color: $clrHilight;
+}
+
+// This enforces a bit of space between the icon and the text of a button.
+a .fa {
+  margin-right: 10px;
+}
+
+.post_listing {
+  margin: 10px 0px 10px 0px;
+  padding: 0 0 0 0px;
+}
+
+.checklist_list {
+  padding-top: 10px;
+}
+
+a.checklist_title {
+    &:hover {
+      text-decoration: none;
+    }
+  color: $clrChecklistTitle;
+  div.checklist_title {
+    border-color: $clrTitleBorder;
+    border-style: solid;
+    border-width: 1px;
+    background: $clrTitleBackground;
+    margin: 20px 0px 20px 0px;
+    padding: 20px;
+    @include border-radius(16px);
+  }
+}
