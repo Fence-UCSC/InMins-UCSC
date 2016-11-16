@@ -12,7 +12,7 @@ ul.web2py-menu-vertical { width: 150px; position: relative; top:1em; left:1em;  
 ul.web2py-menu-vertical li { margin:0; padding:0; border:0; width: 150px; background: black; text-align:left;}
 ul.web2py-menu-vertical li a { margin:0; padding: 1px 3px 1px 3px; border:0; width: 144px; color: white; font-size:12px;}
 div.flash { position: fixed; float: right; padding: 10px; top: 10px; right: 30px; opacity: 0.75; margin: 10px 10px 10px 10px; text-align: center; clear: both; color: #fff; font-size: 11pt; text-align: center; vertical-align: middle; cursor: pointer; background: black; border: 2px solid #fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index: 2; }
-div.error { background-color: red; color: white; padding: 3px; }
+div.error { background-color: beige; color: white; padding: 3px; }
 .auth_navbar { text-align:right; z-index:20; position: absolute; top: 2px; right:30px; border:0; padding:0 }
   </style>
  </head>
@@ -26,10 +26,7 @@ div.error { background-color: red; color: white; padding: 3px; }
      {{=response.title or request.application}}
     </h1>
     <p>
-     Design by
-     <a href="http://www.freecsstemplates.org/">
-      Free CSS Templates
-     </a>
+
     </p>
    </div>
    <!-- end #logo -->
@@ -66,42 +63,42 @@ div.error { background-color: red; color: white; padding: 3px; }
       </li>
       <li>
        <h2>
-        Lorem Ipsum
+        Wordly Cuisines
        </h2>
        <ul>
         <li>
          <a href="#">
-          Fusce dui neque fringilla
+          Meditteranen fusion 
          </a>
         </li>
         <li>
          <a href="#">
-          Eget tempor eget nonummy
+          Asian fusion 
          </a>
         </li>
         <li>
          <a href="#">
-          Magna lacus bibendum mauris
+          Latin fusion 
          </a>
         </li>
         <li>
          <a href="#">
-          Nec metus sed donec
+          Middle Eastern fusion
          </a>
         </li>
         <li>
          <a href="#">
-          Magna lacus bibendum mauris
+          American
          </a>
         </li>
         <li>
          <a href="#">
-          Velit semper nisi molestie
+          Vegetaraian
          </a>
         </li>
         <li>
          <a href="#">
-          Eget tempor eget nonummy
+          Vegan
          </a>
         </li>
        </ul>
@@ -157,13 +154,6 @@ div.error { background-color: red; color: white; padding: 3px; }
   </div>
   <!-- end #page -->
   <div id="footer">
-   <p>
-    &copy; 2008. All Rights Reserved. Design by
-    <a href="http://www.freecsstemplates.org/">
-     Free CSS Templates
-    </a>
-    .
-   </p>
   </div>
   <!-- end #footer -->
  </body>
