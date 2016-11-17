@@ -9,18 +9,12 @@
 
 import datetime
 
-db.define_table('categories',
-                Field('name', 'string'),
-                Field('description', 'string')
-                )
-
 db.define_table('recipe',
                 Field('user_id', 'reference auth_user', default=session.suth.user.id if session.auth else None),
                 Field('username', default=session.auth.user.first_name if session.auth else None),
-                Field('eating_style'),
-                Field('meal_type'),
                 Field('name', 'string'),
                 Field('description', 'string'),
+
                 Field('prep', 'time'),
                 Field('cook', 'time'),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
@@ -28,23 +22,11 @@ db.define_table('recipe',
                 Field('vlink', 'text', default=None)
                 )
 
-db.define_table('ingredient',
+db.define_table('ingredients',
                 Field('recipe_id', 'reference recipe', requires=IS_IN_DB(db, 'recipe.id')),
-                Field('material', 'text'),
-                Field('amount', 'double'),
-                Field('unit', 'string')
+                Field('material', 'text')
                 )
 
-# recipe table's constraint
-db.recipe.user_id.readable = db.recipe.user_id.writable = False
-db.recipe.username.readable = db.recipe.username.writable = False
-db.recipe.eating_style.requires = IS_IN_SET('Omnivore', 'Vegetarian', 'Vegan')
-db.recipe.meal_type.requires = IS_IN_SET('Appetizers & Snacks',
-                                         'Breakfast & Brunch',
-                                         'Lunch & Dinner',
-                                         'Dessert',
-                                         'Drinks')
+# the constraint of recipe table
 db.recipe.name.requires = IS_NOT_EMPTY()
-db.recipe.created_on.readable = db.recipe.created_on.writable = False
-db.recipe.updated_on.readable = db.recipe.updated_on.writable = False
 
