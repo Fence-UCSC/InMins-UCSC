@@ -11,4 +11,4 @@ A shot video recipe web application
 
 
 ## Documentation
-* Idea Backlog: https://docs.google.com/document/d/1zVRqN_T5O_rcVoFUG8YYvvUZj60ZAaxLr-nVw7D3CsU/edit
+* Idea Backlog: https://drive.google.com/drive/u/1/folders/0BwnCI9LxiMD0QnZWQjV2ZVRERkU?ths=true
