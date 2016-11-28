@@ -19,6 +19,8 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
+            <!-- we can make the video ID a variable, then allow the user to throw in their own ID which we throw to the
+             database and then spit back out to the videoID-->
           videoId: 'M7lc1UVf-VE',
           events: {
             'onReady': onPlayerReady,
