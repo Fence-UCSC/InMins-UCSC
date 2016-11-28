@@ -8,6 +8,9 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
+def Youtube():
+    row = ''
+    return dict(row=row)
 
 def index():
     return dict()
