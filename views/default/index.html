@@ -72,7 +72,13 @@
 
             .titlertext{
                 font-size: 20px;
+                color: black;
 
+            }
+
+            .titler2{
+                font-size: 60px;
+                text-align: center;
             }
 
 
@@ -113,13 +119,14 @@
 					<div class="innertube2">
                         <div class="titler">
                             {{if not logged_in:}}
-                                <h1> Log In! </h1>
+                                <div class="titler2"> Log In! </div>
+                                <div class="titlertext">Log in to be able to submit [and save?] your own recipes!</div>
                             {{else:}}
                             Welcome {{=T(auth.user.first_name if auth.user.first_name else '...')}}!</div>
-                            {{pass}}
 						<div class="titlertext">Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes!<!-- Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
  Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!-->
                         </div>
+                        {{pass}}
 					</div>
 				</div>
 			</main>
