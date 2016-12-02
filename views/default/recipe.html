@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/product.js')}}"></script>
+{{end}}
+
+{{logged_in = auth.user_id is not None}}
+<style>
+
+</style>
+
+
+</html>
