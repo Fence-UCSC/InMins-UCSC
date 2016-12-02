@@ -12,16 +12,7 @@
 				line-height: 1.5em;
 			}
 
-			#header {
-				background: #ccc;
-				height: 100px;
 
-			}
-
-			#header h1 {
-				margin: 0;
-				padding-top: 15px;
-			}
 
 			main {
 				padding-bottom: 10010px;
@@ -31,23 +22,25 @@
 			}
 
 			#nav {
+                margin-top: 15px;
 				padding-bottom: 10010px;
 				margin-bottom: -10000px;
 				float: left;
 				width: 230px;
 				margin-left: -100%;
-				background: #eee;
+				background: whitesmoke;
 			}
 
 			#footer {
 				clear: left;
 				width: 100%;
-				background: #ccc;
+				background: transparent;
 				text-align: center;
 				padding: 50px 0;
 			}
 
 			#wrapper {
+                position: fixed;
 				overflow: hidden;
 			}
 
@@ -57,11 +50,12 @@
 
 			.innertube {
 				margin: 15px; /* Padding for content */
-				margin-top: 0;
+				margin-top: 10px;
 			}
 
+
 			p {
-				color: #555;
+				color: black;
 			}
 
 			nav ul {
@@ -71,9 +65,13 @@
 			}
 
 			nav ul a {
-				color: darkgreen;
+				color: black;
 				text-decoration: none;
 			}
+
+            .sidetitle {
+                color: purple;
+            }
 
 		</style>
 
@@ -84,50 +82,38 @@
 	</head>
 
 	<body>
-		<header id="header">
-			<div class="innertube">
-				<h1>In Minutes</h1>
-			</div>
-		</header>
+
 
 		<div id="wrapper">
 
 			<main>
 				<div id="content">
 					<div class="innertube">
-						<center/><h1>Welcome</h1><center/>
+                        <strong><center/><h1>Welcome {{=T(auth.user.first_name if auth.user.first_name else '')}}!</h1><center/></strong>
 						<p>Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes! Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
  Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!
-</p>
+                        </p>
 					</div>
 				</div>
 			</main>
 
 			<nav id="nav">
 				<div class="innertube">
-					<h3>Worldly Cuisine</h3>
+                    <div class="sidetitle"><h3>Worldly Cuisine</h3></div>
 					<ul>
-						<li><a href={{URL('views','default/Page1.html' )}}>African </a></li>
-						<li><a href="{{=URL('Youtube')}}">American </a></li>
-                        <li><a href="#">Asian</a></li>
-						<li><a href="#">Austrailian</a></li>
-						<li><a href="#">European</a></li>
-                        <li><a href="#">Indian</a></li>
-                        <li><a href="#">Latin</a></li>
-                        <li><a href="#">Polynesian</a></li>
+                        <li><a href="#">All</a></li>
+                        {{for cuisine in cuisines:}}
+                            <li> <a href="#"> {{=cuisine.name}} </a> </li>
+                        {{pass}}
 					</ul>
-					<h3>Type of Meal</h3>
+
+                    <div class="sidetitle"><h3>Type of Meal</h3></div>
 					<ul>
-						<li><a href="#">Breakfast</a></li>
-						<li><a href="#">Lunch</a></li>
-						<li><a href="#">Brunch</a></li>
-						<li><a href="#">Dinner</a></li>
-						<li><a href="#">Snacks</a></li>
-                        <li><a href="#">Drinks</a></li>
-                        <li><a href="#">Appetizers</a></li>
-                        <li><a href="#">Deserts</a></li>
+						{{for mt in mealType:}}
+                        <li><a href="#">{{=mt.name}}</a></li>
+                        {{pass}}
 					</ul>
-					<h3>My Cookbook</h3>
+                    <div class="sidetitle"><h3>My Cookbook</h3></div>
 					<ul>
 						<li><a href="#">Add A Post</a></li>
 						<li><a href="#">My Cookbook</a></li>
@@ -146,3 +132,5 @@
 	</body>
 </html>
 {{extend 'layout.html'}}
+
+<!--4 pages, main, add new, search, recipe-->

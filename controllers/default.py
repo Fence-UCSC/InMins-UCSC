@@ -13,7 +13,12 @@ def Youtube():
     return dict(row=row)
 
 def index():
-    return dict()
+    cuisines = db(db.cuisines).select(db.cuisines.name)
+    mealType = db(db.mealType).select(db.mealType.name)
+    logger.info(cuisines)
+    logger.info(mealType)
+    return dict(cuisines=cuisines,
+                mealType=mealType)
 
 
 def user():
