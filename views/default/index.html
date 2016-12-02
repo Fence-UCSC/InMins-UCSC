@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
+{{logged_in = auth.user_id is not None}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>InMinutes</title>
+		<!--<title>InMinutes</title>-->
 		<style type="text/css">
 
 			body {
 				margin:0;
 				padding:0;
-				font-family: Sans-Serif;
+				font-family: "Times New Roman";
 				line-height: 1.5em;
 			}
 
 
 
 			main {
+                font-family: Helvetica;
 				padding-bottom: 10010px;
 				margin-bottom: -10000px;
 				float: left;
@@ -53,6 +56,25 @@
 				margin-top: 10px;
 			}
 
+            .innertube2{
+                margin-left: 200px;
+                margin-right: 200px;
+                text-align: center;
+
+            }
+
+            .titler{
+                text-align: center;
+                font-size: 60px;
+                color: midnightblue;
+
+            }
+
+            .titlertext{
+                font-size: 20px;
+
+            }
+
 
 			p {
 				color: black;
@@ -70,7 +92,7 @@
 			}
 
             .sidetitle {
-                color: purple;
+                color: midnightblue;
             }
 
 		</style>
@@ -88,11 +110,16 @@
 
 			<main>
 				<div id="content">
-					<div class="innertube">
-                        <strong><center/><h1>Welcome {{=T(auth.user.first_name if auth.user.first_name else '')}}!</h1><center/></strong>
-						<p>Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes! Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
- Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!
-                        </p>
+					<div class="innertube2">
+                        <div class="titler">
+                            {{if not logged_in:}}
+                                <h1> Log In! </h1>
+                            {{else:}}
+                            Welcome {{=T(auth.user.first_name if auth.user.first_name else '...')}}!</div>
+                            {{pass}}
+						<div class="titlertext">Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes!<!-- Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
+ Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!-->
+                        </div>
 					</div>
 				</div>
 			</main>
@@ -115,7 +142,7 @@
 					</ul>
                     <div class="sidetitle"><h3>My Cookbook</h3></div>
 					<ul>
-						<li><a href="#">Add A Post</a></li>
+						<li><a href="#">Add A Recipe</a></li>
 						<li><a href="#">My Cookbook</a></li>
 					</ul>
 				</div>
@@ -132,5 +159,6 @@
 	</body>
 </html>
 {{extend 'layout.html'}}
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
 
-<!--4 pages, main, add new, search, recipe-->
+    <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->
