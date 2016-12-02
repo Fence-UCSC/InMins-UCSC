@@ -27,10 +27,10 @@ if db(db.cuisines.id > 0).isempty():
 
 # insert data to mealType table
 if db(db.mealType.id > 0).isempty():
-    db.mealType.insert(name='Breakfast & Branch')
+    db.mealType.insert(name='Breakfast & Brunch')
     db.mealType.insert(name='Lunch')
     db.mealType.insert(name='Dinner')
-    db.mealType.insert(name='Deserts')
+    db.mealType.insert(name='Desserts')
     db.mealType.insert(name='Appetizers')
     db.mealType.insert(name='Snacks')
 
