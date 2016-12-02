@@ -1,37 +1,36 @@
-<!DOCTYPE html>
+{{extend 'layout.html'}}
 <html>
 {{logged_in = auth.user_id is not None}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 		<!--<title>InMinutes</title>-->
 		<style type="text/css">
 
 			body {
-				margin:0;
-				padding:0;
-				font-family: Helvetica;
-				line-height: 1.5em;
+                font-family: Helvetica;
+                background-color:whitesmoke;
+                background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+                linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+                background-size:50px 50px;
 			}
 
 
 
 			main {
                 font-family: Helvetica;
-				padding-bottom: 10010px;
-				margin-bottom: -10000px;
+
 				float: left;
 				width: 100%;
 			}
 
 			#nav {
                 margin-top: 15px;
-				padding-bottom: 10010px;
-				margin-bottom: -10000px;
+
 				float: left;
 				width: 230px;
 				margin-left: -100%;
-				background: whitesmoke;
+				background: floralwhite;
 			}
 
 			#footer {
@@ -48,15 +47,16 @@
 			}
 
 			#content {
-				margin-left: 230px; /* Same as 'nav' width */
+				margin-left: 230px;
 			}
 
 			.innertube {
-				margin: 15px; /* Padding for content */
+				margin: 15px;
 				margin-top: 10px;
 			}
 
             .innertube2{
+                background-color: floralwhite;
                 margin-left: 200px;
                 margin-right: 200px;
                 text-align: center;
@@ -66,7 +66,7 @@
             .titler{
                 text-align: center;
                 font-size: 60px;
-                color: midnightblue;
+                color: green
 
             }
 
@@ -80,7 +80,16 @@
                 font-size: 60px;
                 text-align: center;
             }
-
+            .grid-item {
+                float: left;
+            }
+            .grid-item .thumbnail {
+                overflow: hidden;
+                background-color: #f1f1f1;
+            }
+            .grid-item .thumbnail img {
+                width: 100%;
+            }
 
 			p {
 				color: black;
@@ -98,14 +107,27 @@
 			}
 
             .sidetitle {
-                color: midnightblue;
+                color: green;
             }
 
 		</style>
 
 		<script type="text/javascript">
+        </script>
 
-		</script>
+        <script>
+            $( function() {
+        // init Masonry
+            var $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+                gutter: 15
+                });
+        // layout Masonry after each image loads
+            $grid.imagesLoaded().progress(function() {
+            $grid.masonry('layout');
+            });
+        });
+    </script>
 
 	</head>
 
@@ -197,7 +219,6 @@
 
 	</body>
 </html>
-{{extend 'layout.html'}}
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
 
     <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->
