@@ -46,6 +46,8 @@ db.define_table('recipe',
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('vlink', 'text'),
+                Field('status', 'boolean', default=True),
+                Field('username', default=session.auth.user.first_name if session.auth else None),
                 )
 
 # Constraint for recipe
