@@ -58,5 +58,6 @@ db.recipe.id.readable = db.recipe.id.writable = False
 db.recipe.user_id.readable = db.recipe.user_id.writable = False
 db.recipe.created_on.writable = db.recipe.created_on.readable = False
 db.recipe.updated_on.writable = db.recipe.updated_on.readable = False
+db.recipe.vlink.writable = db.recipe.vlink.readable = False
 
 

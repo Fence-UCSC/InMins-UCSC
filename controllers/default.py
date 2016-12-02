@@ -12,15 +12,26 @@ def Youtube():
     row = ''
     return dict(row=row)
 
-def recipe():
 
-    return dict()
+def recipe():
+    form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
+                                      'name': 'Name of Recipe',
+                                      'prept': 'Prepare Time (minutes)',
+                                      'cookt': 'Cooking Time (minutes)'
+                                      })
+
+    if form is not None and form.process().accepted:
+        session.flash = T('Recipe Added')
+        redirect(URL('default', 'index'))
+    else:
+        logger.info('Error!!')
+
+    return dict(form=form)
+
 
 def index():
     cuisines = db(db.cuisines).select(db.cuisines.name)
     mealType = db(db.mealType).select(db.mealType.name)
-    logger.info(cuisines)
-    logger.info(mealType)
     recipes = db(db.recipe.status == True).select(
         orderby=~db.recipe.created_on, limitby=(0, 20)
     )
