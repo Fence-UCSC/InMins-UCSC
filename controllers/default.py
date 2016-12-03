@@ -8,23 +8,30 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
-def Youtube():
+def youtubeTest():
     row = ''
     return dict(row=row)
 
 
 def recipe():
-    form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
-                                      'name': 'Name of Recipe',
-                                      'prept': 'Prepare Time (minutes)',
-                                      'cookt': 'Cooking Time (minutes)'
-                                      })
+    form = ''
 
-    if form is not None and form.process().accepted:
-        session.flash = T('Recipe Added')
-        redirect(URL('default', 'index'))
+    # check if user is login
+    if auth.user:
+        form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
+                                          'name': 'Name of Recipe',
+                                          'prept': 'Prepare Time (minutes)',
+                                          'cookt': 'Cooking Time (minutes)'
+                                          })
+
+        if form is not None and form.process().accepted:
+            session.flash = T('Recipe Added')
+            redirect(URL('default', 'index'))
+        else:
+            logger.info('Error!!')
+
     else:
-        logger.info('Error!!')
+        redirect(URL('default', 'user'))
 
     return dict(form=form)
 
