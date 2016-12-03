@@ -1,3 +1,224 @@
 {{extend 'layout.html'}}
+<html>
+{{logged_in = auth.user_id is not None}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+	<head>
 
-<h1>Testing message from defaul/index.html</h1>
+		<!--<title>InMinutes</title>-->
+		<style type="text/css">
+
+			body {
+                font-family: Helvetica;
+                background-color:whitesmoke;
+                background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+                linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+                background-size:50px 50px;
+			}
+
+
+
+			main {
+                font-family: Helvetica;
+
+				float: left;
+				width: 100%;
+			}
+
+			#nav {
+                margin-top: 15px;
+
+				float: left;
+				width: 230px;
+				margin-left: -100%;
+				background: floralwhite;
+			}
+
+			#footer {
+				clear: left;
+				width: 100%;
+				background: transparent;
+				text-align: center;
+				padding: 50px 0;
+			}
+
+			#wrapper {
+                position: fixed;
+				overflow: hidden;
+			}
+
+			#content {
+				margin-left: 230px;
+			}
+
+			.innertube {
+				margin: 15px;
+				margin-top: 10px;
+			}
+
+            .innertube2{
+                background-color: floralwhite;
+                margin-left: 200px;
+                margin-right: 200px;
+                text-align: center;
+
+            }
+
+            .titler{
+                text-align: center;
+                font-size: 60px;
+                color: green
+
+            }
+
+            .titlertext{
+                font-size: 20px;
+                color: black;
+
+            }
+
+            .titler2{
+                font-size: 60px;
+                text-align: center;
+            }
+            .grid-item {
+                float: left;
+            }
+            .grid-item .thumbnail {
+                overflow: hidden;
+                background-color: #f1f1f1;
+            }
+            .grid-item .thumbnail img {
+                width: 100%;
+            }
+
+			p {
+				color: black;
+			}
+
+			nav ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			nav ul a {
+				color: black;
+				text-decoration: none;
+			}
+
+            .sidetitle {
+                color: green;
+            }
+
+		</style>
+
+		<script type="text/javascript">
+        </script>
+
+        <script>
+            $( function() {
+        // init Masonry
+            var $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+                gutter: 15
+                });
+        // layout Masonry after each image loads
+            $grid.imagesLoaded().progress(function() {
+            $grid.masonry('layout');
+            });
+        });
+    </script>
+
+	</head>
+
+	<body>
+
+
+		<div id="wrapper">
+
+			<main>
+				<div id="content">
+					<div class="innertube2">
+                        <div class="titler">
+                            {{if not logged_in:}}
+                                <div class="titler2"> Log In! </div>
+                                <div class="titlertext">Log in to be able to submit [and save?] your own recipes!</div>
+                            {{else:}}
+                            Welcome {{=T(auth.user.first_name if auth.user.first_name else '...')}}!</div>
+						<div class="titlertext">Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes!<!-- Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
+ Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!-->
+                        </div>
+                        {{pass}}
+					</div>
+				</div>
+			</main>
+
+			<nav id="nav">
+				<div class="innertube">
+                    <div class="sidetitle"><h3>Worldly Cuisine</h3></div>
+					<ul>
+                        <li><a href="#">All</a></li>
+                        {{for cuisine in cuisines:}}
+                            <li> <a href="#"> {{=cuisine.name}} </a> </li>
+                        {{pass}}
+					</ul>
+
+                    <div class="sidetitle"><h3>Type of Meal</h3></div>
+					<ul>
+						{{for mt in mealType:}}
+                        <li><a href="#">{{=mt.name}}</a></li>
+                        {{pass}}
+					</ul>
+                    <div class="sidetitle"><h3>My Cookbook</h3></div>
+					<ul>
+						<li><a href="{{=URL('recipe.html')}}">Add A Recipe</a></li>
+						<li><a href="#">My Cookbook</a></li>
+					</ul>
+				</div>
+			</nav>
+
+		</div>
+
+		<footer id="footer">
+			<div class="innertube">
+				<p></p>
+			</div>
+		</footer>
+
+
+<h2>Recipes</h2>
+<div class="grid" data-masonry='{ "itemSelector": ".grid-item"}'>
+    {{for recipe in recipes:}}
+    <div class="grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=recipe.id)}}'">
+            {{if recipe.image != '':}}
+            <img src="{{=URL('download', args=recipe.image)}}"/>
+            {{else:}}
+            <div style="background-color:#e4e4e4;width:100%;height:200px;font-size:2em;text-align:center;padding:20px">
+                <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
+            </div>
+            {{pass}}
+            <div class="caption">
+                <h3>{{=recipe.name}}</h3>
+                <div class="clearfix">
+                    <p><a class="product-user label label-default" href="{{=URL('recipe', args=recipe.user_id)}}">
+                        <i class="fa fa-user"></i> {{=recipe.username}}
+                    </a></p>
+                </div>
+              <!--  <div class="clearfix">
+                    <p class="label {{='label-success' if recipe.status else 'label-danger'}} product-price pull-left">
+                        <i class="fa fa-usd"></i> {{=recipe.price}} {{='' if recipe.status else 'sold'}}
+                    </p>
+                    <p class="pull-right" title="{{=product.created_on}}"><i class="fa fa-clock-o"></i> {{=pretty_date(product.created_on)}}</p>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    {{pass}}
+</div>
+
+	</body>
+</html>
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
+    <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->

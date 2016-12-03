@@ -1,5 +1,42 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+# -------------------------------------------------------------------------
+# This is a sample controller
+# - index is the default action of any application
+# - user is required for authentication and authorization
+# - download is for downloading files uploaded in the db (does streaming)
+# -------------------------------------------------------------------------
+
+def Youtube():
+    row = ''
+    return dict(row=row)
+
+
+def recipe():
+    form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
+                                      'name': 'Name of Recipe',
+                                      'prept': 'Prepare Time (minutes)',
+                                      'cookt': 'Cooking Time (minutes)'
+                                      })
+
+    if form is not None and form.process().accepted:
+        session.flash = T('Recipe Added')
+        redirect(URL('default', 'index'))
+    else:
+        logger.info('Error!!')
+
+    return dict(form=form)
+
+
 def index():
-    return dict()
+    cuisines = db(db.cuisines).select(db.cuisines.name)
+    mealType = db(db.mealType).select(db.mealType.name)
+    recipes = {}
+    return dict(cuisines=cuisines,
+                mealType=mealType,
+                recipes = recipes,
+    )
 
 
 def user():

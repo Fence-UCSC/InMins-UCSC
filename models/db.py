@@ -98,3 +98,51 @@ logger.setLevel(logging.INFO)
 # Let's log the request.
 logger.info("====> Request: %r %r %r %r" % (request.env.request_method, request.env.path_info, request.args, request.vars))
 logger.info("Session: %r", session)
+
+
+# Google Login
+import urllib2
+from gluon.contrib.login_methods.oauth20_account import OAuthAccount
+
+try:
+    import json
+except ImportError:
+    from gluon.contrib import simplejson as json
+
+
+class googleAccount(OAuthAccount):
+    AUTH_URL = "https://accounts.google.com/o/oauth2/auth"
+    TOKEN_URL = "https://accounts.google.com/o/oauth2/token"
+    client_id = "324786868299-sk0bdlgu7nr2r56v73if29v4ii4qqb80.apps.googleusercontent.com"
+    client_secret = "psoSV-zkMO3Sf6bsv3gpytCM"
+
+    def __init__(self):
+        OAuthAccount.__init__(self,
+                              client_id=self.client_id,
+                              client_secret=self.client_secret,
+                              auth_url=self.AUTH_URL,
+                              token_url=self.TOKEN_URL,
+                              approval_prompt='force', state='auth_provider=google',
+                              scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.upload')
+
+    def get_user(self):
+        token = self.accessToken()
+        if not token:
+            return None
+
+        uinfo_url = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=%s' % urllib2.quote(token, safe='')
+        uinfo = None
+        try:
+            uinfo_stream = urllib2.urlopen(uinfo_url)
+        except:
+            session.token = None
+            return
+        data = uinfo_stream.read()
+        pic = "http://picasaweb.google.com/data/entry/api/user/ uinfo['id']  ?alt=json"
+        uinfo = json.loads(data)
+        return dict(first_name=uinfo['given_name'],
+                    last_name=uinfo['family_name'],
+                    username=uinfo['id'], email=uinfo['email'], pic=pic)
+
+auth.settings.login_form = googleAccount()
+db.auth_user.email.readable = db.auth_user.email.writable = False
