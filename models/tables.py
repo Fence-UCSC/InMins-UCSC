@@ -46,8 +46,8 @@ db.define_table('recipe',
                 Field('cookt', 'integer', default=0),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', default=datetime.datetime.utcnow()),
-                Field('vlink', 'text'),
-
+                Field('vURL', 'text'),
+                #Field('vImage', '') //TBC
                 )
 
 # Constraint for recipe
@@ -59,6 +59,6 @@ db.recipe.user_id.readable = db.recipe.user_id.writable = False
 db.recipe.username.readable = db.recipe.username.writable = False
 db.recipe.created_on.writable = db.recipe.created_on.readable = False
 db.recipe.updated_on.writable = db.recipe.updated_on.readable = False
-db.recipe.vlink.writable = db.recipe.vlink.readable = False
+#db.recipe.vlink.writable = db.recipe.vlink.readable = False
 
 
