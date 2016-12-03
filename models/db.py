@@ -123,7 +123,7 @@ class googleAccount(OAuthAccount):
                               auth_url=self.AUTH_URL,
                               token_url=self.TOKEN_URL,
                               approval_prompt='force', state='auth_provider=google',
-                              scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
+                              scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.upload')
 
     def get_user(self):
         token = self.accessToken()
@@ -145,3 +145,4 @@ class googleAccount(OAuthAccount):
                     username=uinfo['id'], email=uinfo['email'], pic=pic)
 
 auth.settings.login_form = googleAccount()
+db.auth_user.email.readable = db.auth_user.email.writable = False

@@ -39,6 +39,7 @@ db.define_table('recipe',
                 Field('cuisines'),
                 Field('mealType'),
                 Field('name', 'string'),
+                Field('username', default=session.auth.user.first_name if session.auth else None),
                 Field('description', 'text'),
                 Field('ingredient', 'text'),
                 Field('prept', 'integer', default=0),
@@ -46,7 +47,7 @@ db.define_table('recipe',
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('vlink', 'text'),
-                Field('username', default=session.auth.user.first_name if session.auth else None),
+
                 )
 
 # Constraint for recipe
@@ -55,6 +56,7 @@ db.recipe.cuisines.requires = IS_IN_DB(db, 'cuisines', '%(name)s')
 db.recipe.mealType.requires = IS_IN_DB(db, 'mealType', '%(name)s')
 db.recipe.id.readable = db.recipe.id.writable = False
 db.recipe.user_id.readable = db.recipe.user_id.writable = False
+db.recipe.username.readable = db.recipe.username.writable = False
 db.recipe.created_on.writable = db.recipe.created_on.readable = False
 db.recipe.updated_on.writable = db.recipe.updated_on.readable = False
 db.recipe.vlink.writable = db.recipe.vlink.readable = False
