@@ -15,14 +15,22 @@
                 background-size:50px 50px;
 			}
 
-
-
 			main {
                 font-family: Helvetica;
 
 				float: left;
 				width: 100%;
 			}
+
+              hr {
+                display: block;
+                margin-top: 0.2em;
+                margin-bottom: 0.5em;
+                margin-left: auto;
+                margin-right: auto;
+                border-style: inset;
+                border-width: 5px;
+            }
 
 			#nav {
                 margin-top: 15px;
@@ -80,6 +88,16 @@
                 font-size: 60px;
                 text-align: center;
             }
+
+            .logo{
+                margin-left: 350px;
+                margin-right: 350px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                text-align: center;
+                background-color: lightgoldenrodyellow;
+            }
+
             .grid-item {
                 float: right;
             }
@@ -138,9 +156,9 @@
 
 			<main>
 				<div id="content">
+                    <div class="logo"> <img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
 					<div class="innertube2">
                         <div class="titler">
-                                <div class="titler2"> <a href="http://imgur.com/I5RjjJy"><img src="http://i.imgur.com/I5RjjJy.png" title="source: imgur.com" style="width:304px;height:175px;" /></a> </div>
                             {{if not logged_in:}}
                                 <div class="titler2"> Log In! </div>
                                 <div class="titlertext">Log in to be able to submit [and save?] your own recipes!</div>
