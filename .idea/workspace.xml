@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b2caa0c9-dd66-400a-96bb-ed1d66d20198" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/index.html" afterPath="$PROJECT_DIR$/views/default/index.html" />
     </list>
     <ignored path="minutes.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -607,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480807594841</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Edited logo">
+      <created>1480809299620</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1480809299620</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -668,7 +674,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Logo Icon" />
     <MESSAGE value="Added Logo Icon part 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Logo Icon part 2" />
+    <MESSAGE value="Edited logo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited logo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
