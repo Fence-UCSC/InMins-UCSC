@@ -81,11 +81,11 @@
                 text-align: center;
             }
             .grid-item {
-                float: left;
+                float: right;
             }
             .grid-item .thumbnail {
                 overflow: hidden;
-                background-color: #f1f1f1;
+                background-color: black;
             }
             .grid-item .thumbnail img {
                 width: 100%;
@@ -171,7 +171,7 @@
 					</ul>
                     <div class="sidetitle"><h3>My Cookbook</h3></div>
 					<ul>
-						<li><a href="{{=URL('recipe.html')}}">Add A Recipe</a></li>
+						<li><a href="{{=URL('default', 'recipe')}}">Add A Recipe</a></li>
 						<li><a href="#">My Cookbook</a></li>
 					</ul>
 				</div>
@@ -205,12 +205,6 @@
                         <i class="fa fa-user"></i> {{=recipe.username}}
                     </a></p>
                 </div>
-              <!--  <div class="clearfix">
-                    <p class="label {{='label-success' if recipe.status else 'label-danger'}} product-price pull-left">
-                        <i class="fa fa-usd"></i> {{=recipe.price}} {{='' if recipe.status else 'sold'}}
-                    </p>
-                    <p class="pull-right" title="{{=product.created_on}}"><i class="fa fa-clock-o"></i> {{=pretty_date(product.created_on)}}</p>
-                </div>-->
             </div>
         </div>
     </div>
