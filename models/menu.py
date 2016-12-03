@@ -31,14 +31,18 @@ response.menu = [
     (T('Home'), False, URL('default', 'index'), [])
 ]
 
-DEVELOPMENT_MENU = True
+#DEVELOPMENT_MENU = True
+
+response.menu = [
+    (T('Add Recipe'), False, URL('default', 'recipe'), [])
+]
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # provide shortcuts for development. remove in production
 # ----------------------------------------------------------------------------------------------------------------------
 
-def _():
+"""def _():
     # ------------------------------------------------------------------------------------------------------------------
     # shortcuts
     # ------------------------------------------------------------------------------------------------------------------
@@ -50,7 +54,7 @@ def _():
     response.menu += [
         ((T('Developer '), I(_class='fa fa-cog')), False, '#', [
             ((T('Admin '), I(_class='fa fa-code-fork')), False, URL('admin', 'default', 'site')),
-            ((T('Repo '), I(_class='fa fa-github')), False, 'http://github.com/Fence-UCSC/Storefront'),
+            ((T('Repo '), I(_class='fa fa-github')), False, 'http://github.com/Fence-UCSC/InMins'),
             LI(_class="divider"),
             (T('Design'), False, URL('admin', 'default', 'design/%s' % app)),
             LI(_class="divider"),
@@ -85,7 +89,7 @@ def _():
 
 
 if DEVELOPMENT_MENU:
-    _()
+    _()"""
 
 if "auth" in locals():
     auth.wikimenu()
