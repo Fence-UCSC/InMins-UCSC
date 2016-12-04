@@ -44,36 +44,27 @@ def addRecipe():
 
 
 def recipe():
-    form = ''
+    recipe = ''
 
-    # check if user is login
-    if auth.user:
-        form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
-                                          'name': 'Name of Recipe',
-                                          'prept': 'Prepare Time (minutes)',
-                                          'cookt': 'Cooking Time (minutes)'
-                                          })
-
-        if form is not None and form.process().accepted:
-            session.flash = T('Recipe Added')
-            redirect(URL('default', 'index'))
-        else:
-            logger.info('Error!!')
-
+    if request.args(0):
+        recipe_id = request.args(0)
+        recipe = db(db.recipe.id == recipe_id).select().first()
     else:
-        redirect(URL('default', 'user'))
-    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 4))
-    return dict(form=form,
-                recipes=recipes)
+        recipe = request.args(0)
+        redirect(URL('default', 'index'))
+
+    return dict(recipe=recipe)
 
 
 def index():
     cuisines = db(db.cuisines).select(db.cuisines.name)
     mealType = db(db.mealType).select(db.mealType.name)
     recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 4))
+    recipe = db(db.recipe.id == request.args(0)).select().first()
     return dict(cuisines=cuisines,
                 mealType=mealType,
                 recipes = recipes,
+                recipe=recipe,
     )
 
 

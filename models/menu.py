@@ -34,7 +34,6 @@ response.menu = [
 DEVELOPMENT_MENU = False
 
 response.menu = [
-    (T('Recipes'), False, URL('default', 'recipe'), []),
     (T('Add Recipe'), False, URL('default', 'addRecipe'), [])
 ]
 
