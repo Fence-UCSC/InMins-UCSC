@@ -1,0 +1,78 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/product.js')}}"></script>
+{{end}}
+
+{{logged_in = auth.user_id is not None}}
+
+<style>
+    body {
+        font-family: Helvetica;
+        background-color:floralwhite;
+        background-image:linear-gradient(90deg, rgba(200,0,0,.5)  50%, transparent 50%),
+        linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+        background-size:50px 50px;
+    }
+
+    .border {
+     border-style: groove;/
+     border-color: white;
+     border-radius: 5px 5px;
+}
+
+   .white{
+    background: floralwhite;
+
+}
+    .logo{
+        margin-left: 350px;
+        margin-right: 350px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        text-align: center;
+        background-color: floralwhite;
+}
+
+</style>
+
+<body>
+<div>
+     <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
+     <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
+</div>
+<!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->
+<div class = "border white">
+  <strong><h3>Recipe:</h3></strong>
+
+        <ol>
+            Cuisine:
+        </ol>
+        <br>
+
+        <strong><h3>Video:</h3></strong>
+        <ol>
+        </ol>
+        <br>
+        <strong><h3>Description:</h3></strong>
+
+        <ul>
+            <li>Time: _</li>
+            <li>Serves: _</li>
+        </ul>
+        <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Comments</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br>
+</div>
+
+</body>
+
+
