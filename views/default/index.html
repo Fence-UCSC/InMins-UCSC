@@ -41,19 +41,6 @@
 				background: floralwhite;
 			}
 
-			#footer {
-				clear: left;
-				width: 100%;
-				background: transparent;
-				text-align: center;
-				padding: 50px 0;
-			}
-
-			#wrapper {
-                position: fixed;
-				overflow: hidden;
-			}
-
 			#content {
 				margin-left: 230px;
 			}
@@ -146,7 +133,7 @@
 
 			<main>
 				<div id="content">
-                    <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
+                  <!--  <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>-->
 					<div class="innertube2">
                         <div class="titler">
                             {{if not logged_in:}}
@@ -159,7 +146,48 @@
                         </div>
                         {{pass}}
 					</div>
+                                    <div class="recipe_listing center">
+
+    <div class="recipe_list">
+
+        {{if recipes:}}
+
+            {{for p in recipes:}}
+
+
+
+
+                    <div class="recipe_bottom center">
+                        <div style="background-color:#e4e4e4;width:25%;height:200px;font-size:2em;text-align:center; padding:20px">
+                            <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
+                        </div>
+                        <div class="recipe text-left">
+                        <div class="description">{{=p.name}}</div>
+                    <div class="uname">By {{=p.username}}</div>
+
+                      <!-- <div class="createdon"> {{=p.created_on}}</div>-->
+                            &nbsp
+                            &nbsp
+                            &nbsp
+                       <!--{{if p.created_on - p.updated_on:}}
+                             <span class="update">Edited on: {{=p.updated_on}}</span>
+                        {{else: pass}}-->
+                    </div>
+                </div>
+
+            {{pass}}
+
+        </div>
+
+        {{else:}}
+
+            <p align="center"> No recipes Found. </p>
+
+        {{pass}}
+</div>
 				</div>
+
+
 			</main>
 
 			<nav id="nav">

@@ -1,6 +1,9 @@
 {{extend 'layout.html'}}
+<style>
+
+</style>
 <head>
-<link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+
 </head>
 <div class="recipe_listing center">
     <h1>Recipes, The Site</h1>
@@ -11,18 +14,24 @@
 
             {{for p in recipes:}}
 
-                <div class="recipe text-left">
 
-                   <font size="6">{{=p.description}}</font>
+
 
                     <div class="recipe_bottom center">
-                     <font color="black"> {{=p.username}}</font>
-                        <div class="spacing"></div>
-                       <font color="black"> {{=p.created_on}}</font>
+                        <div style="background-color:#e4e4e4;width:25%;height:200px;font-size:2em;text-align:center; padding:20px">
+                            <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
+                        </div>
+                        <div class="recipe text-left">
+                        <div class="description">{{=p.name}}</div>
+                    <div class="uname">By {{=p.username}}</div>
+
+                      <!-- <div class="createdon"> {{=p.created_on}}</div>-->
                             &nbsp
-                       {{if p.created_on - p.updated_on:}}
+                            &nbsp
+                            &nbsp
+                       <!--{{if p.created_on - p.updated_on:}}
                              <span class="update">Edited on: {{=p.updated_on}}</span>
-                        {{else: pass}}
+                        {{else: pass}}-->
                     </div>
                 </div>
 
