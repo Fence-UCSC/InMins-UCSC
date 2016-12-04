@@ -9,46 +9,60 @@
 <style>
     body {
                 font-family: Helvetica;
-                background-color:whitesmoke;
+                background-color:red;
                 background-image:
                 linear-gradient(rgba(200,0,0,.5) 100%, transparent 90%);
                 background-size:75px 75px;
 			}
+ .border {
+     border-style: groove;
+     border-color: black;
+     border-radius: 5px 5px;
+}
 
-    .topcorner{
-   position:absolute;
-   top:0;
-   right:0;
-  }
+.white{
+    background: beige;
+}
+    p.two {
+    border-left: 6px solid red;
+    background-color: lightgrey;
+}
 
 </style>
 
 <body>
+<div>
+     <h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/>
+</div>
 
-     <h1><center/>Recipe <i class="fa fa-book" aria-hidden="true"></i> <center/></h1>
+<div class = "border white">
+  <strong><h4>Recipe</h4></strong>
 
+        <ol>
+            <a href="?">Cuisine: </a>
+        </ol>
+        <strong><h4>Video </h4></strong>
+        <ol>
+            <a href="?">Recipe: </a>
+        </ol>
+        <strong><h4>Description </h4></strong>
 
-     <center/><a href="http://www.foodnetwork.com/shows/hungry-girl/200-series/under-five-minutes.html">Search recipes!</a><center/>
-
+        <ul>
             <li>Time: _</li>
             <li>Serves: _</li>
+        </ul>
 
         <table>
             <thead>
                 <tr>
-                    <th>Ingredients</th>
-                    <th>Quantity</th>
+                    <th>Comments</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
+</div>
 
-        <p><strong>Step 1:</strong> ...
-        <p><strong>Step 2:</strong> ...
-        <p><strong>Step 3:</strong> ...
-</p>
-
-    <p><em>Source: <a href="https://www.youtube.com/">Youtube</a></em></p>
+   <em>Source: <a href="https://www.youtube.com/">Youtube</a></em>
 
 </body>
