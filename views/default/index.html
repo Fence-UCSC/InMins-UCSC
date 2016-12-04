@@ -76,6 +76,14 @@
                 text-align: center;
             }
 
+            .recipe_listing{
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                font-style: italic;
+                font-weight: 900;
+            }
+
             .logo{
                 margin-left: 350px;
                 margin-right: 350px;
@@ -119,20 +127,6 @@
 		<script type="text/javascript">
         </script>
 
-        <script>
-            $( function() {
-        // init Masonry
-            var $grid = $('.grid').masonry({
-                itemSelector: '.grid-item',
-                gutter: 15
-                });
-        // layout Masonry after each image loads
-            $grid.imagesLoaded().progress(function() {
-            $grid.masonry('layout');
-            });
-        });
-    </script>
-
 	</head>
 
 	<body>
@@ -155,22 +149,18 @@
                         </div>
                         {{pass}}
 					</div>
-                                    <div class="recipe_listing center">
-
+<div class="recipe_listing">
     <div class="recipe_list">
 
         {{if recipes:}}
 
             {{for p in recipes:}}
 
-
-
-
-                    <div class="recipe_bottom center">
-                        <div style="background-color:#e4e4e4;width:25%;height:200px;font-size:2em;text-align:center; padding:20px">
-                            <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
-                        </div>
-                        <div class="recipe text-left">
+                <div class="recipe_bottom" style="padding:20px;">
+                    <div style="background-color:#e4e4e4;width:25%px; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
+                        <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
+                    </div>
+                        <div class="recipe text-center" style="background-color:floralwhite;">
                         <div class="description">{{=p.name}}</div>
                     <div class="uname">By {{=p.username}}</div>
 
