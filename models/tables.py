@@ -46,7 +46,7 @@ db.define_table('recipe',
                 Field('cookt', 'integer', default=0),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', default=datetime.datetime.utcnow()),
-                Field('vURL', 'text'),
+                Field('vURL', 'string'),
                 #Field('vImage', '') //TBC
                 )
 

@@ -1,0 +1,97 @@
+{{extend 'layout.html'}}
+<style>
+    body {
+        font-family: Helvetica;
+        background-color:whitesmoke;
+        background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+                        linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+        background-size:50px 50px;
+    }
+
+    #recipeForm {
+        background-color: rgba(230, 230, 230, 0.95);
+        padding: 10px;
+    }
+</style>
+
+<body>
+    <div id="recipeForm">
+        <div style="padding: 50px;">{{=form}}</div>
+    </div>
+</body>
+
+<script>
+    <!-- YouTube API -->
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+        }
+    });
+    }
+
+    function onPlayerReady(event) {
+        // do something
+        alert('finish loading');
+    }
+
+    var done = false;
+    function onPlayerStateChange(event) {
+        // play on 6 secs
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+    }
+    function stopVideo() {
+        player.stopVideo();
+    }
+</script>
+
+<script>
+    var url_input = "";
+    var urlInputBox = document.getElementById('recipe_vURL');
+    var playerDiv = "<div id='player' class='' style='margin-top: 5px'></div>";
+    var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Upload</button>";
+    var cancelLabel = "<button id='vCancelLabel' class='label label-warning'>Cancel</button>";
+
+    var vUrlLabel = "<div style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
+
+    // insert the video under the URL input
+    $(playerDiv).insertAfter(urlInputBox);
+
+    // add buttons to load video
+    $(vUrlLabel).insertBefore(urlInputBox);
+
+    // Buttons onClick action
+    $("#vUploadLabel").click(function(event) {
+        event.preventDefault();
+        updateURL();
+    });
+
+    $("#vCancelLabel").click(function(event) {
+        event.preventDefault();
+        cleanUrlInput();
+    });
+
+    function updateURL() {
+        $('#player').removeClass('hidden');
+        url_input = urlInputBox.value;
+    }
+
+    function cleanUrlInput(event) {
+        urlInputBox.value = "";
+        url_input = "";
+        $('#player').addClass('hidden');
+    }
+</script>

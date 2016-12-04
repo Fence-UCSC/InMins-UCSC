@@ -1,0 +1,38 @@
+{{extend 'layout.html'}}
+<head>
+<link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+</head>
+<div class="recipe_listing center">
+    <h1>Recipes, The Site</h1>
+
+    <div class="recipe_list">
+
+        {{if recipes:}}
+
+            {{for p in recipes:}}
+
+                <div class="recipe text-left">
+
+                   <font size="6">{{=p.description}}</font>
+
+                    <div class="recipe_bottom center">
+                     <font color="black"> {{=p.username}}</font>
+                        <div class="spacing"></div>
+                       <font color="black"> {{=p.created_on}}</font>
+                            &nbsp
+                       {{if p.created_on - p.updated_on:}}
+                             <span class="update">Edited on: {{=p.updated_on}}</span>
+                        {{else: pass}}
+                    </div>
+                </div>
+
+            {{pass}}
+
+        </div>
+
+        {{else:}}
+
+            <p align="center"> No recipes Found. </p>
+
+        {{pass}}
+</div>
