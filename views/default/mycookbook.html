@@ -1,6 +1,7 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+
 <script src="{{=URL('static', 'js/product.js')}}"></script>
 {{end}}
 
@@ -34,45 +35,24 @@
         background-color: floralwhite;
 }
 
+            .titler{
+                text-align: center;
+                font-size: 60px;
+                color: green
+
+            }
+
+            .titlertext{
+                font-size: 20px;
+                color: black;
+
+            }
+
+            .titler2{
+                font-size: 60px;
+                text-align: center;
+            }
+
 </style>
-
-<body>
-<div>
-     <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
-     <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
-</div>
-<!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->
-<div class = "border white">
-  <strong><h3>Recipe:</h3></strong>
-
-        <ol>
-            Cuisine:
-        </ol>
-        <br>
-
-        <strong><h3>Video:</h3></strong>
-        <ol>
-        </ol>
-        <br>
-        <strong><h3>Description:</h3></strong>
-
-        <ul>
-            <li>Time: _</li>
-            <li>Serves: _</li>
-        </ul>
-        <br>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Comments</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <br>
-</div>
-
-</body>
 
 
