@@ -44,7 +44,7 @@ def recipe():
 def index():
     cuisines = db(db.cuisines).select(db.cuisines.name)
     mealType = db(db.mealType).select(db.mealType.name)
-    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
+    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 4))
     return dict(cuisines=cuisines,
                 mealType=mealType,
                 recipes = recipes,
