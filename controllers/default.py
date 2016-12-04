@@ -7,6 +7,14 @@
 # - user is required for authentication and authorization
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
+def formtest():
+    form=''
+    form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
+                                      'name': 'Name of Recipe',
+                                      'prept': 'Prepare Time (minutes)',
+                                      'cookt': 'Cooking Time (minutes)'
+                                      })
+    return dict(form=form)
 
 def test():
     recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
