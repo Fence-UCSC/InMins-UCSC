@@ -105,6 +105,15 @@
                 color: green;
             }
 
+            .bottom {
+                position:relative;
+                left: 50%;
+                margin-top:50%;
+            }
+
+            .color {
+                color: green;
+            }
 		</style>
 
 		<script type="text/javascript">
@@ -225,5 +234,10 @@
 	</body>
 </html>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
+    <div v-if="has_more" class="show_more bottom color">
+                <button id="load-more" v-on:click="get_more()">Load More</button> <br>
+            </div>
+
 
     <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->
