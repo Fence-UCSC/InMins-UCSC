@@ -8,49 +8,59 @@
 
 <style>
     body {
-                font-family: Helvetica;
-                background-color:red;
-                background-image:
-                linear-gradient(rgba(200,0,0,.5) 100%, transparent 90%);
-                background-size:75px 75px;
-			}
- .border {
+        font-family: Helvetica;
+        background-color:whitesmoke;
+        background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+        linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+        background-size:50px 50px;
+    }
+
+    .border {
      border-style: groove;
-     border-color: black;
+     border-color: white;
      border-radius: 5px 5px;
 }
 
-.white{
-    background: beige;
+   .white{
+    background: whitesmoke;
+
 }
-    p.two {
-    border-left: 6px solid red;
-    background-color: lightgrey;
+    .logo{
+        margin-left: 350px;
+        margin-right: 350px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        text-align: center;
+        background-color: lightgoldenrodyellow;
 }
 
 </style>
 
 <body>
 <div>
+     <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
      <h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/>
 </div>
-
+<em><a href="{{=URL('default', 'index')}}">Home</a></em>
 <div class = "border white">
-  <strong><h4>Recipe</h4></strong>
+  <strong><h4>Recipe:</h4></strong>
 
         <ol>
-            <a href="?">Cuisine: </a>
+            Cuisine:
         </ol>
-        <strong><h4>Video </h4></strong>
+        <br>
+
+        <strong><h4>Video:</h4></strong>
         <ol>
-            <a href="?">Recipe: </a>
         </ol>
-        <strong><h4>Description </h4></strong>
+        <br>
+        <strong><h4>Description:</h4></strong>
 
         <ul>
             <li>Time: _</li>
             <li>Serves: _</li>
         </ul>
+        <br>
 
         <table>
             <thead>
@@ -63,6 +73,5 @@
         </table>
 </div>
 
-   <em>Source: <a href="https://www.youtube.com/">Youtube</a></em>
-
 </body>
+        <em>Source: <a href="https://www.youtube.com/">Youtube</a></em>
