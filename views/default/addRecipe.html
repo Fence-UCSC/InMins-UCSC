@@ -16,64 +16,31 @@
 
 <body>
     <div id="recipeForm">
-        <div style="padding: 50px;">{{=form}}</div>
+        <div style="padding: 50px;">
+            <h1 style="margin: 20px; color: green">New Recipe</h1>
+            {{=form}}
+        </div>
     </div>
 </body>
 
 <script>
-    <!-- YouTube API -->
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'M7lc1UVf-VE',
-        events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-        }
-    });
-    }
-
-    function onPlayerReady(event) {
-        // do something
-        alert('finish loading');
-    }
-
-    var done = false;
-    function onPlayerStateChange(event) {
-        // play on 6 secs
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
-    }
-    function stopVideo() {
-        player.stopVideo();
-    }
-</script>
-
-<script>
+    var player;
     var url_input = "";
     var urlInputBox = document.getElementById('recipe_vURL');
-    var playerDiv = "<div id='player' class='' style='margin-top: 5px'></div>";
+    var playerDiv = "<div id='player' class='hidden' style='margin-top: 5px'></div>";
     var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Upload</button>";
     var cancelLabel = "<button id='vCancelLabel' class='label label-warning'>Cancel</button>";
-
-    var vUrlLabel = "<div style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
+    var loadingLabel = "<div id='vLoadingLabel'><i class='fa fa-spinner fa-spin fa-2x fa-fw'></i><span class='sr-only'>Preparing...</span></div>";
+        var vUrlLabel = "<div id='vUrlLabel' class='hidden' style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
 
     // insert the video under the URL input
     $(playerDiv).insertAfter(urlInputBox);
 
     // add buttons to load video
+    $(loadingLabel).insertBefore(urlInputBox);
     $(vUrlLabel).insertBefore(urlInputBox);
 
-    // Buttons onClick action
+    // Buttons onClick activities
     $("#vUploadLabel").click(function(event) {
         event.preventDefault();
         updateURL();
@@ -85,13 +52,74 @@
     });
 
     function updateURL() {
-        $('#player').removeClass('hidden');
         url_input = urlInputBox.value;
+        var url_tokens = url_input.split('?');
+
+        // check if the URL input box is empty before process
+        if (url_input != '') {
+
+            // check if the user entered a YouTube URL
+            if (url_tokens[0] && url_tokens[0]=="https://www.youtube.com/watch" && url_tokens[1]) {
+
+                var url_args = url_tokens[1].split('=');
+
+                player.loadVideoById(url_args[1]);
+                $('#player').removeClass('hidden');
+
+            } else {
+                stopVideo();
+                $('#player').addClass('hidden');
+                alert("Please enter a correct YouTube URL: \n https://www.youtube.com/watch?v={Video Id}");
+            }
+
+        } else {
+            alert("Please enter the URL");
+        }
     }
 
     function cleanUrlInput(event) {
+        stopVideo();
+        $('#player').addClass('hidden');
         urlInputBox.value = "";
         url_input = "";
-        $('#player').addClass('hidden');
     }
+
+    // YouTube API
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        //videoId: 'M7lc1UVf-VE',
+        events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+        }
+    });
+    }
+
+    function onPlayerReady(event) {
+
+        $('#vLoadingLabel').remove();
+        $('#vUrlLabel').removeClass('hidden');
+
+    }
+
+    var done = false;
+
+    function onPlayerStateChange(event) {
+    }
+
+    function stopVideo() {
+        player.stopVideo();
+    }
+</script>
+
+<script>
+
 </script>

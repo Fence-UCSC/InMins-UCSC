@@ -13,9 +13,31 @@ def test():
     recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
     return dict(recipes=recipes)
 
-def youtubeTest():
-    row = ''
-    return dict(row=row)
+def addRecipe():
+    form = ''
+
+    # check if user is login
+    if auth.user:
+        form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
+                                          'name': 'Name of Recipe',
+                                          'prept': 'Prepare Time (minutes)',
+                                          'cookt': 'Cooking Time (minutes)',
+                                          'vURL': 'Youtube Video URL'})
+        form.element(_id='recipe_name')['_placeholder'] = 'Name'
+        form.element(_id='recipe_description')['_placeholder'] = 'Description'
+        form.element(_id='recipe_ingredient')['_placeholder'] = 'Ingredient'
+        form.element(_id='recipe_vURL')['_placeholder'] = 'https://www.youtube.com/watch?v='
+
+        if form is not None and form.process().accepted:
+            session.flash = T('Recipe Added')
+            redirect(URL('default', 'index'))
+        else:
+            logger.info('Error!!')
+
+    else:
+        redirect(URL('default', 'user'))
+
+    return dict(form=form)
 
 
 def recipe():
