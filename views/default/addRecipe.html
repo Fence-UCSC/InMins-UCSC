@@ -21,9 +21,48 @@
 </body>
 
 <script>
+    <!-- YouTube API -->
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+        }
+    });
+    }
+
+    function onPlayerReady(event) {
+        // do something
+        alert('finish loading');
+    }
+
+    var done = false;
+    function onPlayerStateChange(event) {
+        // play on 6 secs
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+    }
+    function stopVideo() {
+        player.stopVideo();
+    }
+</script>
+
+<script>
+    var url_input = "";
     var urlInputBox = document.getElementById('recipe_vURL');
-    var playerDiv = "<div id='player' class='hidden' style='margin-top: 5px'></div>";
-    var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success' onclick='checkUrl()'>Upload</button>";
+    var playerDiv = "<div id='player' class='' style='margin-top: 5px'></div>";
+    var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Upload</button>";
     var cancelLabel = "<button id='vCancelLabel' class='label label-warning'>Cancel</button>";
 
     var vUrlLabel = "<div style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
@@ -35,9 +74,9 @@
     $(vUrlLabel).insertBefore(urlInputBox);
 
     // Buttons onClick action
-    $("#vCancelLabel").click(function(event) {
+    $("#vUploadLabel").click(function(event) {
         event.preventDefault();
-        checkUrl();
+        updateURL();
     });
 
     $("#vCancelLabel").click(function(event) {
@@ -45,50 +84,14 @@
         cleanUrlInput();
     });
 
-    function checkUrl() {
-        //$(playerDiv).insertAfter(urlInputBox);
+    function updateURL() {
+        $('#player').removeClass('hidden');
+        url_input = urlInputBox.value;
     }
 
     function cleanUrlInput(event) {
-        urlInputBox.value = ''
-    }
-</script>
-
-<script>
-    <!-- YouTube API -->
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '390',
-            width: '640',
-            videoId: 'm0mFZMco_PA',
-            events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        //event.targe.
-
-    }
-
-    var done = false;
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
-        }
-    }
-
-    function stopVideo() {
-        player.stopVideo();
+        urlInputBox.value = "";
+        url_input = "";
+        $('#player').addClass('hidden');
     }
 </script>
