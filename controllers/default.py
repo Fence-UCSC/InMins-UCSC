@@ -9,8 +9,8 @@
 # -------------------------------------------------------------------------
 
 def test():
-    row = ''
-    return dict(row=row)
+    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
+    return dict(recipes=recipes)
 
 def youtubeTest():
     row = ''
