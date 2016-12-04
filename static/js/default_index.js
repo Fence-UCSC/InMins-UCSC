@@ -60,7 +60,7 @@ var app = function() {
         $.post(toggle_product_status_url, {product_id: id}, function(data) { console.log(data); location.reload(); });
     };
 
-    // Get 4 additional reviews from the database
+    // Get 4 additional reviews from the database************************
     self.get_more = function () {
         var num_reviews = self.vue.reviews.length;
         $.getJSON(get_reviews_url(num_reviews, num_reviews + 4), function (data) {
@@ -206,6 +206,7 @@ var app = function() {
 
 
  };
+
 
 Vue.component('star-rating', {
 
