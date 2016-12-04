@@ -38,7 +38,13 @@
 
 <body>
 <div>
-     <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>
+     <div class ="intro">
+         {{if recipes:}}
+            {{for p in recipes:}}
+                {{=p.name}}
+             {{pass}}
+         {{pass}}
+     </div>
      <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
 </div>
 <!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->

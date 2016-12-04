@@ -59,8 +59,9 @@ def recipe():
 
     else:
         redirect(URL('default', 'user'))
-
-    return dict(form=form)
+    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 4))
+    return dict(form=form,
+                recipes=recipes)
 
 
 def index():
