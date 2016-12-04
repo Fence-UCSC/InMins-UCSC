@@ -31,12 +31,12 @@ response.menu = [
     (T('Home'), False, URL('default', 'index'), [])
 ]
 
-#DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = False
 
 response.menu = [
-    (T('Add Recipe'), False, URL('default', 'recipe'), [])
+    (T('Recipes'), False, URL('default', 'recipe'), []),
+    (T('Add Recipe'), False, URL('default', 'addRecipe'), [])
 ]
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # provide shortcuts for development. remove in production
