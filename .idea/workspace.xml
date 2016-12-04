@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b2caa0c9-dd66-400a-96bb-ed1d66d20198" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/recipe.html" afterPath="$PROJECT_DIR$/views/default/recipe.html" />
     </list>
     <ignored path="minutes.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -604,7 +603,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480831158712</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Finalized Recipe Template Page">
+      <created>1480832604792</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1480832604792</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -667,7 +673,8 @@
     <MESSAGE value="Added Logo Icon part 2" />
     <MESSAGE value="Edited logo" />
     <MESSAGE value="Edited Recipe Page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edited Recipe Page" />
+    <MESSAGE value="Finalized Recipe Template Page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finalized Recipe Template Page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
