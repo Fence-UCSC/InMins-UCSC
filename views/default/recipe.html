@@ -98,7 +98,11 @@
     <div>
         <div class="title">Video:</div>
         <div id='vURL' class="hidden">{{=recipe.vURL}}</div>
-        <div class="center"><div id="player"></div></div>
+        {{if recipe.vURL:}}
+            <div class="center"><div id="player"></div></div>
+        {{else:}}
+            <div class="detail">No Video is Available</div>
+        {{pass}}
     </div>
 
 </div>
