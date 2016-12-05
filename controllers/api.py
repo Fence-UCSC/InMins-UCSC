@@ -23,6 +23,7 @@ def get_recipes():
             img_str = json.dumps(r.image)
             has_image = True if (img_str != "\"\"") else False
             image = URL('appadmin', 'download/db', args=r.image)
+            recipe_url = URL('default', 'recipe', args=r.id)
 
             recipe = dict(
                 id=r.id,
@@ -30,7 +31,8 @@ def get_recipes():
                 recipe_name=r.name,
                 recipe_image=image,
                 had_image=has_image,
-                created_on=r.created_on
+                created_on=r.created_on,
+                recipe_url=recipe_url
             )
             recipes.append(recipe)
         else:
