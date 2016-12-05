@@ -68,9 +68,9 @@
                  {{cuisines = db(db.cuisines.id==recipe.cuisines).select().first()}}
                  {{mealType = db(db.mealType.id==recipe.mealType).select().first()}}
                  <span> | </span>
-                 <span>{{=cuisines.name}}</span>
+                 <span>Prepare: {{=recipe.prept}} mins</span>
                  <span> | </span>
-                 <span>{{=mealType.name}}</span>
+                 <span>Cook: {{=recipe.cookt}} mins</span>
                  <span> | </span>
              </div>
          </div>
@@ -80,12 +80,20 @@
     <div class = "row content-border">
         <div>
             <div class="title">Description:</div>
-            <div class="detail">{{=recipe.description}}</div>
+            {{if recipe.description:}}
+                <div class="detail">{{=recipe.description}}</div>
+            {{else:}}
+                <div class="detail">No Description</div>
+            {{pass}}
         </div>
 
         <div>
             <div class="title">Ingredient:</div>
-            <div class="detail">{{=recipe.ingredient}}</div>
+            {{if recipe.description:}}
+                <div class="detail">{{=recipe.ingredient}}</div>
+            {{else:}}
+                <div class="detail">No Ingredient</div>
+            {{pass}}
         </div>
 
         <div>
