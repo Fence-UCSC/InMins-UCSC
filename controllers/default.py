@@ -26,7 +26,7 @@ def test():
     recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
     return dict(recipes=recipes)
 
-def addRecipe():
+def recipeForm():
     form = ''
 
     # check if user is login
@@ -55,14 +55,19 @@ def addRecipe():
 
 
 def recipe():
-    recipe = ''
+    recipe = None
 
-    if request.args(0):
-        recipe_id = request.args(0)
-        recipe = db(db.recipe.id == recipe_id).select().first()
+    if request.args(0) is None:
+        redirect(URL('default', 'recipeForm'))
     else:
-        recipe = request.args(0)
-        redirect(URL('default', 'index'))
+        try:
+            recipe = db(db.recipe.id == request.args(0)).select().first()
+        except ValueError:
+            session.flash = T('Invalid recipe id:' + request.args(0))
+            redirect(URL('default', 'index'))
+        if recipe is None:
+            session.flash = T('Recipe id:' + request.args(0) + ' does not exist')
+            redirect(URL('default', 'index'))
 
     return dict(recipe=recipe)
 
