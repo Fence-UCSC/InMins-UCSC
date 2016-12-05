@@ -25,13 +25,16 @@
 
 <script>
     var player;
+    var maxTime =  300;     // maximum video time: 300s (5 minutes)
+    var urlLegalFlag = false;
     var url_input = "";
     var urlInputBox = document.getElementById('recipe_vURL');
     var playerDiv = "<div id='player' class='hidden' style='margin-top: 5px'></div>";
     var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Upload</button>";
     var cancelLabel = "<button id='vCancelLabel' class='label label-warning'>Cancel</button>";
     var loadingLabel = "<div id='vLoadingLabel'><i class='fa fa-spinner fa-spin fa-2x fa-fw'></i><span>Preparing...</span></div>";
-        var vUrlLabel = "<div id='vUrlLabel' class='hidden' style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
+    var vUrlLabel = "<div id='vUrlLabel' class='hidden' style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
+    var url_errorMessage = "<div id='url_errorMessage' class='hidden' style='color: red'></div>";
 
     // insert the video under the URL input
     $(playerDiv).insertAfter(urlInputBox);
@@ -39,6 +42,7 @@
     // add buttons to load video
     $(loadingLabel).insertBefore(urlInputBox);
     $(vUrlLabel).insertBefore(urlInputBox);
+    $(url_errorMessage).insertAfter(urlInputBox);
 
     // Buttons onClick activities
     $("#vUploadLabel").click(function(event) {
@@ -52,6 +56,8 @@
     });
 
     function updateURL() {
+        $('#url_errorMessage').addClass('hidden');
+        $('#url_errorMessage').text('');
         url_input = urlInputBox.value;
         var url_tokens = url_input.split('?');
 
@@ -64,25 +70,48 @@
                 var url_args = url_tokens[1].split('=');
 
                 player.loadVideoById(url_args[1]);
-                $('#player').removeClass('hidden');
 
             } else {
                 stopVideo();
                 $('#player').addClass('hidden');
-                alert("Please enter a correct YouTube URL: \n https://www.youtube.com/watch?v={Video Id}");
+                $('#url_errorMessage').text("Please enter a correct YouTube URL: \n https://www.youtube.com/watch?v={Video Id}");
+                $('#url_errorMessage').removeClass('hidden');
             }
 
         } else {
-            alert("Please enter the URL");
+            $('#url_errorMessage').text("Please enter a correct YouTube URL: \n https://www.youtube.com/watch?v={Video Id}");
+            $('#url_errorMessage').removeClass('hidden');
         }
     }
 
-    function cleanUrlInput(event) {
+    function cleanUrlInput() {
         stopVideo();
         $('#player').addClass('hidden');
         urlInputBox.value = "";
         url_input = "";
+        $('#recipe_vURL').removeClass('hidden');
+        $('#url_errorMessage').addClass('hidden');
+        $('#url_errorMessage').text('');
     }
+
+    // Other Event
+    // Disable "Enter" keypress behavior on URL input field
+    $('#recipe_vURL').keypress(function(event){
+        if (event.keyCode === 10 || event.keyCode === 13) {
+            event.preventDefault();
+        }
+    });
+
+    // check the urlLegalFlag before Submit the form
+    $("input[type='submit']").on('click', function(event) {
+        if (urlInputBox.value == "") {
+            urlLegalFlag = false;
+        }
+
+        if (urlLegalFlag == false) {
+            urlInputBox.value = "";
+        }
+    });
 
     // YouTube API
     var tag = document.createElement('script');
@@ -92,27 +121,49 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        //videoId: 'M7lc1UVf-VE',
-        events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-        }
-    });
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            //videoId: 'M7lc1UVf-VE',
+            events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+            }
+        });
     }
 
     function onPlayerReady(event) {
-
         $('#vLoadingLabel').remove();
         $('#vUrlLabel').removeClass('hidden');
 
     }
 
-    var done = false;
-
     function onPlayerStateChange(event) {
+        console.log(event);
+        // get the length of video when it is loaded and played
+        if (event.data == "1") {
+            var vLength = event.target.getDuration();
+
+            if (vLength < (maxTime+1)) {
+                urlLegalFlag = true;
+                player.pauseVideo();
+                $('#recipe_vURL').addClass('hidden');
+                $('#player').removeClass('hidden');
+            } else {
+                urlLegalFlag = false;
+                player.stopVideo();
+                cleanUrlInput();
+                $('#player').addClass('hidden');
+                $('#url_errorMessage').text('Video must be shorter 5 mintes');
+                $('#url_errorMessage').removeClass('hidden');
+            }
+        }
+
+        // set the urlLegalFlag to 1 (Illegal)
+        // if the video cannot be loaded or illegal url
+        if (event.data == "5" || event.data == "3" ) {
+            urlLegalFlag = false;
+        }
     }
 
     function stopVideo() {

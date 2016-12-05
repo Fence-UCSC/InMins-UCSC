@@ -39,6 +39,7 @@ db.define_table('recipe',
                 Field('cuisines'),
                 Field('mealType'),
                 Field('name', 'string'),
+                Field('image', 'upload'),
                 Field('username', default=session.auth.user.first_name if session.auth else None),
                 Field('description', 'text'),
                 Field('ingredient', 'text'),
@@ -47,7 +48,6 @@ db.define_table('recipe',
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('vURL', 'string'),
-                #Field('vImage', '') //TBC
                 )
 
 # Constraint for recipe

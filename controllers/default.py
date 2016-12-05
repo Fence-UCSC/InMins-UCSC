@@ -25,7 +25,8 @@ def addRecipe():
                                           'name': 'Name of Recipe',
                                           'prept': 'Prepare Time (minutes)',
                                           'cookt': 'Cooking Time (minutes)',
-                                          'vURL': 'Youtube Video URL'})
+                                          'vURL': 'Youtube Video URL',
+                                          'image': 'Recipe Image'})
         form.element(_id='recipe_name')['_placeholder'] = 'Name'
         form.element(_id='recipe_description')['_placeholder'] = 'Description'
         form.element(_id='recipe_ingredient')['_placeholder'] = 'Ingredient'
