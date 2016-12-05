@@ -21,10 +21,6 @@ def get_recipes():
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
             username = get_user_name_from_email(r.user_email)
-            if auth.user:
-                urecipe = True if auth.user.email == r.user_email else False
-            else:
-                urecipe = False
 
             po = dict(
                 id=r.id,
@@ -34,7 +30,7 @@ def get_recipes():
                 created_on=r.created_on,
                 updated_on=r.updated_on,
                 user_email = r.user_email,
-                recipe_content = r.recipe_content
+                name = r.name
             )
             recipes.append(po)
         else:
@@ -46,60 +42,3 @@ def get_recipes():
         logged_in=logged_in
     ))
 
-
-# Note that we need the URL to be signed, as this changes the db.
-@auth.requires_signature()
-def add_recipe():
-
-    po_id = db.recipe.insert(
-        recipe_content=request.vars.recipe_content
-    )
-
-    po = db.recipe(po_id)
-    username = get_user_name_from_email(po.user_email)
-    if auth.user:
-        urecipe = True if auth.user.email == po.user_email else False
-    else:
-        urecipe = False
-        urecipe = False
-
-    recipe = dict(
-        id=po.id,
-        username=username,
-        urecipe=urecipe,
-        created_on=po.created_on,
-        updated_on=po.updated_on,
-        user_email=po.user_email,
-        recipe_content=po.recipe_content
-    )
-
-    return response.json(dict(recipe=recipe))
-
-
-@auth.requires_signature()
-def del_recipe():
-    if (auth.user.email == request.vars.user_email):
-        db(db.recipe.id == request.vars.recipe_id).delete()
-        isDeleted = True
-    else:
-        session.flash = T('Not Authorized')
-        isDeleted = False
-    return response.json(dict(isDeleted=isDeleted))
-
-
-@auth.requires_signature()
-def update_recipe():
-    recipe_id = request.vars.recipe_id
-    recipe_content = request.vars.new_recipe_content
-
-    db(db.recipe.id == recipe_id).update(
-        recipe_content=recipe_content,
-        updated_on=datetime.datetime.utcnow())
-
-    recipe = db(db.recipe.id == recipe_id).select().first()
-
-    return response.json(dict(
-        recipe_id=recipe.id,
-        recipe_content=recipe.recipe_content,
-        updated_on=recipe.updated_on
-    ))
