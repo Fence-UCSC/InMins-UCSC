@@ -27,10 +27,17 @@ def test():
     return dict(recipes=recipes)
 
 def recipeForm():
-    form = ''
+    form = None
+    recipe = None
+    page_type = None
+    hasVideo = False;
 
-    # check if user is login
-    if auth.user:
+    if request.args(0) is None:
+        redirect(URL('default', 'recipeForm', args='add'))
+    elif request.args(0) == 'add':
+        if auth.user_id is None:
+            redirect(URL('user', vars={'_next': URL('default', 'recipeForm', args='add')}))
+            page_type = 'create'
         form = SQLFORM(db.recipe, labels={'mealType': 'Meal Type',
                                           'name': 'Name of Recipe',
                                           'prept': 'Prepare Time (minutes)',
@@ -41,15 +48,36 @@ def recipeForm():
         form.element(_id='recipe_description')['_placeholder'] = 'Description'
         form.element(_id='recipe_ingredient')['_placeholder'] = 'Ingredient'
         form.element(_id='recipe_vURL')['_placeholder'] = 'https://www.youtube.com/watch?v='
-
-        if form is not None and form.process().accepted:
-            session.flash = T('Recipe Added')
+    elif request.args(0) == 'edit':
+        try:
+            recipe = db(db.recipe.id == request.vars['rid']).select().first()
+        except ValueError:
+            session.flash = T('Invalid recipe id' + request.vars['rid'])
             redirect(URL('default', 'index'))
-        else:
-            logger.info('Error!!')
+        if recipe is None:
+            session.flash = T('Recipe does not exist')
+            redirect(URL('default', 'recipeForm', args='add'))
 
+        page_type = 'edit'
+
+        form = SQLFORM(db.recipe, recipe, deletable=True, showid=False, labels={'mealType': 'Meal Type',
+                                                                              'name': 'Name of Recipe',
+                                                                              'prept': 'Prepare Time (minutes)',
+                                                                              'cookt': 'Cooking Time (minutes)',
+                                                                              'vURL': 'Youtube Video URL',
+                                                                              'image': 'Recipe Image'})
+        form.add_button(T('Cancel'), URL('default','recipe', args=recipe.id),_class='btn btn-warning')
     else:
-        redirect(URL('default', 'user'))
+        session.flash = T('Invalid URL')
+        redirect(URL('default', 'index'))
+
+    if form is not None and form.process().accepted:
+        if page_type == 'create':
+            session.flash = T('Recipe Added')
+        elif page_type == 'edit':
+            session.flash = T('Recipe Edited')
+        redirect(URL('default', 'index'))
+
 
     return dict(form=form)
 

@@ -30,11 +30,14 @@
     var url_input = "";
     var urlInputBox = document.getElementById('recipe_vURL');
     var playerDiv = "<div id='player' class='hidden' style='margin-top: 5px'></div>";
-    var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Upload</button>";
-    var cancelLabel = "<button id='vCancelLabel' class='label label-warning'>Cancel</button>";
+    var uploadLabel = "<button id='vUploadLabel' type='button' class='label label-success'>Save</button>";
+    var cancelLabel = "<button id='vCancelLabel' class='label label-danger'>Cancel</button>";
     var loadingLabel = "<div id='vLoadingLabel'><i class='fa fa-spinner fa-spin fa-2x fa-fw'></i><span>Preparing...</span></div>";
     var vUrlLabel = "<div id='vUrlLabel' class='hidden' style='margin-bottom: 5px'>" + uploadLabel + cancelLabel + "</div>";
+    var vUploadToggle = "<button id='vUploadToggle' class='label label-default hidden'>Add Video</button>";
     var url_errorMessage = "<div id='url_errorMessage' class='hidden' style='color: red'></div>";
+
+    $("#recipe_vURL").addClass('hidden');
 
     // insert the video under the URL input
     $(playerDiv).insertAfter(urlInputBox);
@@ -42,17 +45,30 @@
     // add buttons to load video
     $(loadingLabel).insertBefore(urlInputBox);
     $(vUrlLabel).insertBefore(urlInputBox);
+    $(vUploadToggle).insertBefore(urlInputBox);
     $(url_errorMessage).insertAfter(urlInputBox);
 
     // Buttons onClick activities
+    $("#vUploadToggle").click(function(event) {
+        urlLegalFlag = false;
+        event.preventDefault();
+        $("#vUploadToggle").addClass('hidden');
+        $("#vUrlLabel").removeClass('hidden');
+        $("#recipe_vURL").removeClass('hidden');
+    });
+
     $("#vUploadLabel").click(function(event) {
         event.preventDefault();
         updateURL();
     });
 
     $("#vCancelLabel").click(function(event) {
+        urlLegalFlag = false;
         event.preventDefault();
         cleanUrlInput();
+        $("#vUploadToggle").removeClass('hidden');
+        $("#vUrlLabel").addClass('hidden');
+        $("#recipe_vURL").addClass('hidden');
     });
 
     function updateURL() {
@@ -66,9 +82,7 @@
 
             // check if the user entered a YouTube URL
             if (url_tokens[0] && url_tokens[0]=="https://www.youtube.com/watch" && url_tokens[1]) {
-
                 var url_args = url_tokens[1].split('=');
-
                 player.loadVideoById(url_args[1]);
 
             } else {
@@ -134,8 +148,15 @@
 
     function onPlayerReady(event) {
         $('#vLoadingLabel').remove();
-        $('#vUrlLabel').removeClass('hidden');
-
+        player.mute();
+        if (urlInputBox.value != "") {
+            urlLegalFlag = true;
+            $('#vUploadToggle').text('Reset');
+            $('#vUploadToggle').removeClass('label-default');
+            $('#vUploadToggle').addClass('label-danger');
+            $('#vCancelLabel').text('Delete');
+        }
+        $('#vUploadToggle').removeClass('hidden');
     }
 
     function onPlayerStateChange(event) {
