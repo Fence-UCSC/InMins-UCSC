@@ -196,6 +196,9 @@
                     </div>
                 </div>
             {{pass}}
+                    <div v-if="has_more" class="show_more">
+                        <button id="load-more" v-on:click="get_more()">Load More</button> <br>
+                    </div>
         </div>
 
         {{else:}}
@@ -211,8 +214,6 @@
 
 </div>
 	</body>
-
-
 
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
