@@ -90,6 +90,7 @@
                 font-weight: 900;
             }
 
+
             .logo{
                 margin-left: 350px;
                 margin-right: 350px;
@@ -165,8 +166,13 @@
 
                 <div class="recipe_bottom" style="padding:20px;">
                     <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=p.id)}}'">
-                    <div style="background-color:#e4e4e4;width:100%; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
-                        <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
+                        {{if p.image:}}
+                            <img src="{{=URL('download', args=p.image)}}"/>
+                        {{else:}}
+                            <div style="background-color:#e4e4e4;width:100%; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
+                                <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
+                            </div>
+                        {{pass}}
                     </div>
                         <div class="recipe text-center" style="background-color:floralwhite;">
                         <div class="description">{{=p.name}}</div>
