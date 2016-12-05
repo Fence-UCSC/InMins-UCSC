@@ -27,15 +27,12 @@ response.google_analytics_id = None
 # this is the main application menu add/remove items as required
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
-]
-
 DEVELOPMENT_MENU = False
 
-response.menu = [
-    (T('Add Recipe'), False, URL('default', 'recipeForm', args='add'), [])
-]
+if auth.user:
+    response.menu = [
+        (T('New Recipe'), False, URL('default', 'recipeForm', args='add'), [])]
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # provide shortcuts for development. remove in production
