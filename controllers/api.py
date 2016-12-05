@@ -1,8 +1,8 @@
 # These are the controllers for your ajax api.
 
 
-def get_user_name_from_email(email):
-    u = db(db.auth_user.email == email).select().first()
+def get_user_name_from_id(uid):
+    u = db(db.auth_user.id == uid).select().first()
     if u is None:
         return 'None'
     else:
@@ -10,7 +10,6 @@ def get_user_name_from_email(email):
 
 
 def get_recipes():
-
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
 
@@ -20,19 +19,20 @@ def get_recipes():
 
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
-            username = get_user_name_from_email(r.user_email)
+            uname = get_user_name_from_id(r.user_id)
+            img_str = json.dumps(r.image)
+            has_image = True if (img_str != "\"\"") else False
+            image = URL('appadmin', 'download/db', args=r.image)
 
-            po = dict(
+            recipe = dict(
                 id=r.id,
-                username=username,
-                urecipe=urecipe,
-                recipe_edit=False,
-                created_on=r.created_on,
-                updated_on=r.updated_on,
-                user_email = r.user_email,
-                name = r.name
+                username=uname,
+                recipe_name=r.name,
+                recipe_image=image,
+                had_image=has_image,
+                created_on=r.created_on
             )
-            recipes.append(po)
+            recipes.append(recipe)
         else:
             has_more = True
     logged_in = auth.user_id is not None

@@ -1,220 +1,168 @@
 {{extend 'layout.html'}}
 
-{{logged_in = auth.user_id is not None}}
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var recipes_url = "{{=URL('api', 'get_recipes')}}";
 </script>
 {{end}}
-	<head>
 
-		<!--<title>InMinutes</title>-->
-		<style type="text/css">
-
-			body {
-                font-family: Helvetica;
-                background-color:whitesmoke;
-                background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
-                linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
-                background-size:50px 50px;
-			}
-
-			main {
-                font-family: Helvetica;
-
-				float: left;
-				width: 100%;
-			}
-
-              hr {
-                display: block;
-                margin-top: 0.2em;
-                margin-bottom: 0.5em;
-                margin-left: auto;
-                margin-right: auto;
-                border-style: inset;
-                border-width: 5px;
-            }
-
-			#nav {
-                margin-top: 15px;
-
-				float: left;
-				width: 230px;
-				margin-left: -100%;
-				background: floralwhite;
-			}
-
-			#content {
-                text-align: center;
-                margin-bottom: 30px;
-            }
-
-			.innertube {
-				margin: 15px;
-				margin-top: 10px;
-			}
-
-            .innertube2{
-                background-color: floralwhite;
-                margin-left: 200px;
-                margin-right: 200px;
-                text-align: center;
-
-            }
-
-            .recipe_bottom{
-                object-fit: contain;
-                object-position: center;
-                width: 100%;
-                height: 20%;
-
-            }
-
-            .titler{
-                text-align: center;
-                font-size: 60px;
-                color: green
-
-            }
-
-            .titlertext{
-                font-size: 20px;
-                color: black;
-
-            }
-
-            .titler2{
-                font-size: 60px;
-                text-align: center;
-            }
-
-            .recipe_listing{
-                text-align: center;
-                font-style: italic;
-                font-weight: 900;
-                padding: 20px;
-                width: 100%;
-                height 20%;
-            }
+<!-- Old CSS -->
+<!--
+<style>
 
 
-            .logo{
-                margin-left: 350px;
-                margin-right: 350px;
-                margin-bottom: 10px;
-                margin-top: 10px;
-                text-align: center;
-                background-color: floralwhite;
-            }
+
+      hr {
+        display: block;
+        margin-top: 0.2em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 5px;
+    }
 
 
-			p {
-				color: black;
-			}
 
-			nav ul {
-				list-style-type: square;
-				margin: 0;
-				padding: 5px;
-			}
+    .innertube2{
+        background-color: floralwhite;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+    }
 
-			nav ul a {
-				color: black;
-				text-decoration: none;
-			}
+    .recipe_bottom{
+        object-fit: contain;
+        object-position: center;
+        width: 100%;
+        height: 20%;
 
-            .sidetitle {
-                color: green;
-            }
+    }
 
-            .bottom {
-                position:relative;
-                left: 50%;
-                margin-top:50%;
-            }
+    .titler{
+        text-align: center;
+        font-size: 60px;
+        color: green
 
-            .color {
-                color: green;
-            }
+    }
 
-		</style>
+    .titlertext{
+        font-size: 20px;
+        color: black;
 
-		<script type="text/javascript">
-        </script>
+    }
 
-	</head>
+    .titler2{
+        font-size: 60px;
+        text-align: center;
+    }
 
-	<body>
+    .recipe_listing{
+        text-align: center;
+        font-style: italic;
+        font-weight: 900;
+        padding: 20px;
+        width: 100%;
+        height 20%;
+    }
+
+    p {
+        color: black;
+    }
+
+    nav ul {
+        list-style-type: square;
+        margin: 0;
+        padding: 5px;
+    }
+
+    nav ul a {
+        color: black;
+        text-decoration: none;
+    }
+</style>
+-->
+
+<style>
+    body {
+        font-family: Helvetica;
+        background-color:whitesmoke;
+        background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+            linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+        background-size:50px 50px;
+    }
+
+    .emphasize-subtitle-word {
+        color: #f47c3c;
+        font-size:1.3em
+    }
+
+    #content {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #load-more {
+        padding: 10px;
+    }
+
+    #no-image {
+        background-color:#e4e4e4;
+        width:100%;
+        height: 300px;
+        margin-left:auto;
+        margin-right:auto;
+        font-size:2em;
+        padding:20px
+    }
+</style>
+
+{{logged_in = auth.user_id is not None}}
 
 <div id="vue-div" class="display:none">
 
-
-			<main>
-				<div id="content">
-                  <!--  <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>-->
-					<div class="innertube2">
-                        <div class="titler">
-                            {{if not logged_in:}}
-                                <div class="titler2"> Log In! </div>
-                                <div class="titlertext">Log in to be able to submit [and save?] your own recipes!</div>
-                            {{else:}}
-                            Welcome {{=T(auth.user.first_name if auth.user.first_name else '...')}}!
-						<div class="titlertext">Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in 3 minutes!<!-- Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
- Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!-->
-                        </div>
-                        {{pass}}
-                        </div>
-					</div>
-                </div>
-<div class="recipe_listing">
-    <div class="recipe_list">
-
-        {{if recipes:}}
-
-            {{for p in recipes:}}
-
-                <div class="recipe_bottom">
-                    <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=p.id)}}'">
-                        <div class="image">{{if p.image:}}</div>
-                            <img src="{{=URL('download', args=p.image)}}"/>
-                            <div class="recipe text-center" style="background-color:floralwhite;">
-                        <div class="description">{{=p.name}}</div>
-                    <div class="uname">By {{=p.username}}</div>
-                        {{else:}}
-                            <div style="background-color:#e4e4e4;width:100%; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
-                                <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
-                            </div>
-                                <div class="recipe text-center" style="background-color:floralwhite;">
-                                    <div class="description">{{=p.name}}</div>
-                                    <div class="uname">By {{=p.username}}</div>
-
-                    </div>
-                            {{pass}}
-
-                    </div>
-                </div>
-            {{pass}}
-                    <div v-if="has_more" class="show_more">
-                        <button id="load-more" v-on:click="get_more()">Load More</button> <br>
-                    </div>
-        </div>
-
+    <div id="content" class="jumbotron" >
+        {{if not logged_in:}}
+            <h1 style="color: green"> Log In! </h1>
+            <div class="titlertext">Log in to <strong class="emphasize-subtitle-word">SHARE</strong> your own recipes!</div>
         {{else:}}
-
-            <p align="center"> No recipes Found. </p>
-
+            <h1 style="color: green"> Welcome {{=T(auth.user.first_name if auth.user.first_name else '...')}} </h1>
+            <div class="titlertext">Welcome to “Meals in Minutes” where you can learn to make a dish of your liking in <strong class="emphasize-subtitle-word">5 Minutes</strong> !!</div>
         {{pass}}
+    </div>
+
+    <div class="row">
+        <div class="main_content">
+
+            <div v-for="recipe in recipes">
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <div v-if="!recipe.had_image" v-on:click="redirect(recipe.id)" id="no-image">
+                                <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
+                        </div>
+
+                        <img v-else v-bind:src="recipe.recipe_image" v-on:click="redirect(recipe.id)" style="height: 300px"/>
+
+                        <div class="caption">
+                            <span v-on:click="redirect(recipe.id)"><h4>${recipe.recipe_name}</h4></span>
+                            <span v-on:click="redirect(recipe.id)"><p>by: ${recipe.username}</p></span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div v-if="has_more" class="show_more">
+                <button id="load-more" v-on:click="get_more()" class="center label label-warning">Load More</button> <br>
+            </div>
+
+        </div>
+    </div>
+
 </div>
-				</div>
-
-
-			</main>
-
-</div>
-	</body>
 
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-    <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->

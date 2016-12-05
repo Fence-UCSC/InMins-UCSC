@@ -31,7 +31,7 @@ DEVELOPMENT_MENU = False
 
 if auth.user:
     response.menu = [
-        (T('New Recipe'), False, URL('default', 'recipeForm', args='add'), [])]
+        (T('Create Recipe'), False, URL('default', 'recipeForm', args='add'), [])]
 
 
 # ----------------------------------------------------------------------------------------------------------------------
