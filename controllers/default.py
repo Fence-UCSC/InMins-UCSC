@@ -12,6 +12,7 @@ def mycookbook():
     row=()
     return dict(row=row)
 
+
 def test():
     recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
     return dict(recipes=recipes)
