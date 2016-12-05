@@ -1,39 +1,63 @@
 {{extend 'layout.html'}}
 
-{{block head}}
-
-<script src="{{=URL('static', 'js/product.js')}}"></script>
-{{end}}
-
+<html>
 {{logged_in = auth.user_id is not None}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+	<head>
 
-<style>
-    body {
-        font-family: Helvetica;
-        background-color:floralwhite;
-        background-image:linear-gradient(90deg, rgba(200,0,0,.5)  50%, transparent 50%),
-        linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
-        background-size:50px 50px;
-    }
+		<!--<title>InMinutes</title>-->
+		<style type="text/css">
 
-    .border {
-     border-style: groove;/
-     border-color: white;
-     border-radius: 5px 5px;
-}
+			body {
+                font-family: Helvetica;
+                background-color:whitesmoke;
+                background-image:linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+                linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+                background-size:50px 50px;
+			}
 
-   .white{
-    background: floralwhite;
+			main {
+                font-family: Helvetica;
 
-}
-    .logo{
-        margin-left: 350px;
-        margin-right: 350px;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        text-align: center;
-        background-color: floralwhite;
-}
+				float: left;
+				width: 100%;
+			}
+
+              hr {
+                display: block;
+                margin-top: 0.2em;
+                margin-bottom: 0.5em;
+                margin-left: auto;
+                margin-right: auto;
+                border-style: inset;
+                border-width: 5px;
+            }
+
+			#nav {
+                margin-top: 15px;
+
+				float: left;
+				width: 230px;
+				margin-left: -100%;
+				background: floralwhite;
+			}
+
+			#content {
+				margin-left: 230px;
+			}
+
+			.innertube {
+				margin: 15px;
+				margin-top: 10px;
+			}
+
+            .innertube2{
+                background-color: floralwhite;
+                margin-left: 200px;
+                margin-right: 200px;
+                text-align: center;
+
+            }
 
             .titler{
                 text-align: center;
@@ -53,44 +77,160 @@
                 text-align: center;
             }
 
-</style>
+            .recipe_listing{
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                font-style: italic;
+                font-weight: 900;
+            }
 
-        <body>
-<div>
+            .logo{
+                margin-left: 350px;
+                margin-right: 350px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                text-align: center;
+                background-color: floralwhite;
+            }
 
-     <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
+
+			p {
+				color: black;
+			}
+
+			nav ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			nav ul a {
+				color: black;
+				text-decoration: none;
+			}
+
+            .sidetitle {
+                color: green;
+            }
+
+            .bottom {
+                position:relative;
+                left: 50%;
+                margin-top:50%;
+            }
+
+            .color {
+                color: green;
+            }
+		</style>
+
+		<script type="text/javascript">
+        </script>
+
+	</head>
+
+	<body>
+
+
+		<div id="wrapper">
+
+			<main>
+				<div id="content">
+                  <!--  <div class ="logo"><img src="http://i.imgur.com/I5RjjJy.png?1" title="source: imgur.com" style="width:400px;height:200px;"/></div>-->
+					<div class="innertube2">
+                        <div class="titler">
+                            {{if not logged_in:}}
+                                <div class="titler2"> Log In! </div>
+                                <div class="titlertext">Log in to be able to submit [and save?] your own recipes!</div>
+                            {{else:}}
+                            My Cookbook
+						<div class="titlertext">Welcome to "My Cookbook" where you can find all your favorited recipies here!<!-- Use the Cuisines sidebar on your left to find a recipe within the various categories of food! Find a food dish you would like to prepare and cook away!
+ Log-in to create your own cookbook with “My Cookbook”! Write reviews for your favorite memories and rank recipes from 0 stars to 5 stars. Save your favorite recipes to your cookbook for easy access! Even add your own recipes for other chefs to create and enjoy!-->
+                        </div>
+                        {{pass}}
+                        </div>
+					</div>
+<div class="recipe_listing">
+    <div class="recipe_list">
+
+        {{if recipes:}}
+
+            {{for p in recipes:}}
+
+                <div class="recipe_bottom" style="padding:20px;">
+                    <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=p.id)}}'">
+                    <div style="background-color:#e4e4e4;width:25%px; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
+                        <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
+                    </div>
+                        <div class="recipe text-center" style="background-color:floralwhite;">
+                        <div class="description">{{=p.name}}</div>
+                    <div class="uname">By {{=p.username}}</div>
+
+                      <!-- <div class="createdon"> {{=p.created_on}}</div>-->
+                            &nbsp
+                            &nbsp
+                            &nbsp
+                       <!--{{if p.created_on - p.updated_on:}}
+                             <span class="update">Edited on: {{=p.updated_on}}</span>
+                        {{else: pass}}-->
+                    </div>
+                </div>
+
+            {{pass}}
+
+        </div>
+
+        {{else:}}
+
+            <p align="center"> No Favorited Recipes Found. </p>
+
+        {{pass}}
 </div>
-<!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->
-<div class = "border white">
-  <strong><h3>Recipe:</h3></strong>
+				</div>
 
-        <ol>
-            Cuisine:
-        </ol>
-        <br>
 
-        <strong><h3>Video:</h3></strong>
-        <ol>
-        </ol>
-        <br>
-        <strong><h3>Description:</h3></strong>
+			</main>
 
-        <ul>
-            <li>Time: _</li>
-            <li>Serves: _</li>
-        </ul>
-        <br>
+			<nav id="nav">
+                    <div class="innertube">
+                    <div class="sidetitle"><h3>Worldly Cuisine</h3></div>
+					<ul>
+                        <li><a href="#">All</a></li>
+                        {{for cuisine in cuisines:}}
+                            <li> <a href="#"> {{=cuisine.name}} </a> </li>
+                        {{pass}}
+					</ul>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Comments</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <br>
-</div>
+                    <div class="sidetitle"><h3>Type of Meal</h3></div>
+					<ul>
+						{{for mt in mealType:}}
+                        <li><a href="#">{{=mt.name}}</a></li>
+                        {{pass}}
+					</ul>
+                    <div class="sidetitle"><h3>My Cookbook</h3></div>
+					<ul>
+						<li><a href="{{=URL('default', 'addRecipe')}}">Add A Recipe</a></li>
+						<li><a href="{{=URL('default', 'mycookbook')}}">My Cookbook</a></li>
+					</ul>
+				</div>
+			</nav>
 
-</body>
+		</div>
 
+		<footer id="footer">
+			<div class="innertube">
+				<p></p>
+			</div>
+		</footer>
+
+	</body>
+</html>
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
+    <div v-if="has_more" class="show_more bottom color">
+                <button id="load-more" v-on:click="get_more()">Load More</button> <br>
+            </div>
+
+
+    <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->
