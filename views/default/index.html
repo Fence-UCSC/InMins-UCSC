@@ -5,9 +5,6 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var recipes_url = "{{=URL('api', 'get_recipes')}}";
-    var add_recipe_url = "{{=URL('api', 'add_recipe', user_signature=True)}}";
-    var del_recipe_url = "{{=URL('api', 'del_recipe', user_signature=True)}}";
-    var update_recipe_url = "{{=URL('api', 'update_recipe', user_signature=True)}}";
 </script>
 {{end}}
 	<head>
@@ -50,8 +47,9 @@
 			}
 
 			#content {
-				margin-left: 230px;
-			}
+                text-align: center;
+                margin-bottom: 30px;
+            }
 
 			.innertube {
 				margin: 15px;
@@ -151,7 +149,7 @@
 	<body>
 
 <div id="vue-div" class="display:none">
-		<div id="wrapper">
+
 
 			<main>
 				<div id="content">
@@ -169,6 +167,7 @@
                         {{pass}}
                         </div>
 					</div>
+                </div>
 <div class="recipe_listing">
     <div class="recipe_list">
 
@@ -209,31 +208,6 @@
 
 
 			</main>
-
-			<nav id="nav">
-                    <div class="innertube">
-                    <div class="sidetitle"><h3>Worldly Cuisine</h3></div>
-					<ul>
-                        <li><a href="{{=URL('default', 'index')}}">All</a></li>
-                        {{for cuisine in cuisines:}}
-                            <li> <a href="#"> {{=cuisine.name}} </a> </li>
-                        {{pass}}
-					</ul>
-
-                    <div class="sidetitle"><h3>Type of Meal</h3></div>
-					<ul>
-						{{for mt in mealType:}}
-                        <li><a href="#">{{=mt.name}}</a></li>
-                        {{pass}}
-					</ul>
-                    <div class="sidetitle"><h3>My Cookbook</h3></div>
-					<ul>
-						<li><a href="{{=URL('default', 'addRecipe')}}">Add A Recipe</a></li>
-						<li><a href="{{=URL('default', 'mycookbook')}}">My Cookbook</a></li>
-					</ul>
-				</div>
-			</nav>
-		</div>
 
 </div>
 	</body>
