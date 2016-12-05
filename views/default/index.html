@@ -159,9 +159,11 @@
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <div v-if="!recipe.had_image" b-bind:href="recipe.recipe_url" id="no-image">
-                                <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
-                        </div>
+                        <a v-bind:href="recipe.recipe_url" v-if="!recipe.had_image">
+                            <div id="no-image">
+                                    <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
+                            </div>
+                        </a>
 
                         <a v-bind:href="recipe.recipe_url" v-else>
                             <img  v-bind:src="recipe.recipe_image" style="height: 300px"/>
