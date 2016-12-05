@@ -1,6 +1,5 @@
 // This is the js for the default/index.html view.
 
-
 var app = function() {
 
     var self = {};
@@ -14,278 +13,140 @@ var app = function() {
         }
     };
 
-    // Enumerates an array.
-    var enumerate = function(v) {
-        var k=0;
-        return v.map(function(e) {e._idx = k++;});
-    };
-
-    // Generate the URL for returning the reviews
-    function get_reviews_url(start_idx, end_idx) {
+    function get_recipes_url(start_idx, end_idx) {
         var pp = {
             start_idx: start_idx,
             end_idx: end_idx
         };
-        return reviews_url + "&" + $.param(pp);
+        return recipes_url + "?" + $.param(pp);
     }
 
-    // Get the first 4 reviews from the database
-    self.get_reviews = function () {
-        self.vue.reviews = [];
-        self.vue.average_vote = null;
-        self.vue.number_votes = null,
-        $.getJSON(get_reviews_url(0, 4), function (data) {
-            self.vue.average_vote = data.average_vote;
-            self.vue.number_votes = data.number_votes;
-            self.vue.reviews = data.reviews;
+    self.add_recipe_button = function () {
+        $("#newrecipe").addClass('hidden');
+        self.vue.is_adding_recipe = true;
+        self.vue.recipe_content = '';
+    };
+
+    self.delete_recipe = function (recipe_id, user_email) {
+        $.recipe(del_recipe_url,
+            {
+                recipe_id: recipe_id,
+                user_email: user_email
+            },
+            function (data) {
+                if (data.isDeleted) {
+                    var idx = null;
+                    for (var i=0; i<self.vue.recipes.length; i++) {
+                        if (self.vue.recipes[i].id === recipe_id) {
+                            idx = i +1;
+                            break;
+                        }
+                    }
+                    if (idx) {
+                        self.vue.recipes.splice(idx-1, 1);
+                    }
+                }
+            })
+    };
+
+    self.cancel_recipe_button = function () {
+        self.vue.is_adding_recipe = false;
+        $("#newrecipe").removeClass('hidden');
+    };
+
+    self.get_recipes = function () {
+        $.getJSON(get_recipes_url(0,4), function (data) {
+            self.vue.recipes = data.recipes;
             self.vue.has_more = data.has_more;
             self.vue.logged_in = data.logged_in;
-            self.vue.current_user = data.current_user;
-            self.vue.already_reviewed = data.already_reviewed;
-            self.vue.current_name_surname = data.current_user_name;
         })
     };
 
-    self.disable_button = function() {
-        var url = window.location.pathname;
-        var start = url.lastIndexOf("/") + 1;
-        var len = url.indexOf("?");
-        var id = -1;
-        if (len > 0)
-            id = url.substring(start, len);
-        else
-            id = url.substring(start);
-        var toggle_product_status_url = "{{=URL('api', 'toggle_product_status', user_signature=True)}}";
-        console.log(toggle_product_status_url + "&product_id=" + id);
-        $.post(toggle_product_status_url, {product_id: id}, function(data) { console.log(data); location.reload(); });
+    self.add_recipe = function () {
+      console.log("add_recipe is called");
+      $.recipe(add_recipe_url,
+          {
+              recipe_content: self.vue.recipe_content
+          },
+          function (data) {
+              self.vue.recipes.unshift(data.recipe);
+          });
+       self.cancel_recipe_button();
     };
 
-    // Get 4 additional reviews from the database************************
+
     self.get_more = function () {
-        var num_reviews = self.vue.reviews.length;
-        $.getJSON(get_reviews_url(num_reviews, num_reviews + 4), function (data) {
+        var num_recipes = self.vue.recipes.length;
+        $.getJSON(get_recipes_url(num_recipes, num_recipes + 4), function (data) {
             self.vue.has_more = data.has_more;
-            self.extend(self.vue.reviews, data.reviews);
+            self.extend(self.vue.recipes, data.recipes);
         });
     };
 
-    self.add_review_button = function () {
-        // The button to add a review has been pressed.
-        self.vue.is_adding_review = !self.vue.is_adding_review;
-    };
 
-    self.cancel_add = function () {
-        // The button to edit a review has been pressed.
-        self.vue.is_adding_review = !self.vue.is_adding_review;
-    };
 
-    self.cancel_edit = function () {
-        // The button to edit a review has been pressed.
-        self.vue.being_edited = null;
-    };
-
-    // Add a review to the database and vue model
-    self.add_review = function () {
-        if (self.vue.stars == null) {
-            return;
-        }
-        self.vue.logged_in = false;
-        self.vue.is_adding_review = false;
-        $.post(add_review_url,
+    self.update_recipe = function (recipe) {
+        console.log("update_recipe is called");
+        $.recipe(update_recipe_url,
             {
-                reviewed_id: self.vue.reviewed_id,
-                review_title : self.vue.form_review_title,
-                review_description: self.vue.form_review_description,
-                vote: self.vue.stars
+                new_recipe_content: self.vue.recipe_edit_content,
+                recipe_id: recipe.id
             },
             function (data) {
-                self.get_reviews();
-            });
-
-        self.vue.form_review_title = "";
-    };
-
-    // Select the review that is being edited
-    self.select_review = function(review_idx) {
-        self.vue.is_editing = true;
-        self.vue.being_edited = review_idx;
-        self.vue.current_review = self.vue.reviews[review_idx];
-        self.vue.form_edit_text = self.vue.form_review_description;
-    };
-
-    // Edit a review
-    self.edit_review = function(review_idx) {
-        $.post(edit_review_url,
-            {
-                review_id: self.vue.reviews[review_idx].id,
-                edit_text: self.vue.form_review_description,
-                edit_title: self.vue.form_review_title
-            },
-            function (data) {
-                self.vue.reviews[review_idx].description = self.vue.form_edit_text;
-                self.get_reviews();
-            });
-        self.vue.form_review_title = "";
-        self.cancel_edit();
-        self.vue.is_editing = false;
-
-
-    };
-
-    // Delete a review
-    self.delete_review = function(reviewed_id, current_user) {
-        $.post(del_review_url,
-            {
-                reviewed_id: reviewed_id,
-                current_user: current_user
-            },
-            function () {
-                self.get_reviews();
+                for (var i=0; i<self.vue.recipes.length; i++) {
+                    if (self.vue.recipes[i].id == data.recipe_id) {
+                        self.vue.recipes[i].recipe_content = data.recipe_content;
+                        self.vue.recipes[i].updated_on = data.updated_on;
+                    }
+                }
             }
-        )
+        );
+        recipe.recipe_edit = false;
     };
 
-    // Update the location
-    self.update_location = function() {
-        $.post(update_location_url,
-            {
-                lati: $("#latbox").val(),
-                longi: $("#lngbox").val()
-            },
-            function (data) {
-                console.log(data);
-            }
-        )
+     self.edit_recipe = function (recipe) {
+        recipe.recipe_edit = true;
+        self.vue.recipe_edit_content = recipe.recipe_content;
+    };
+
+    self.cancel_editing = function (recipe) {
+        recipe.recipe_edit = false;
     };
 
 
+    // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_adding_review: false,
-            is_editing: false,
-            reviews: [],
-            current_review: null,
-            stars: null,
-            being_edited: null,
-            logged_in: false,
-            current_name_surname: null,
-            current_user: null,
             has_more: false,
-            already_reviewed: false,
-            average_vote: 0,
-            number_votes: null,
-            form_review_title: null,
-            form_review_description: null,
-            form_edit_text: null,
-            form_created_on: null,
+            logged_in: true,
+            is_adding_recipe: false,
+            recipes: [],
+            recipe_content: null,
+            recipe_edit_content: null
         },
         methods: {
+            add_recipe_button: self.add_recipe_button,
+            cancel_recipe_button: self.cancel_recipe_button,
             get_more: self.get_more,
-            add_review_button: self.add_review_button,
-            cancel_add: self.cancel_add,
-            cancel_edit: self.cancel_edit,
-            add_review: self.add_review,
-            select_review: self.select_review,
-            edit_review: self.edit_review,
-            delete_review: self.delete_review,
-            update_location: self.update_location
+            add_recipe: self.add_recipe,
+            delete_recipe: self.delete_recipe,
+            edit_recipe: self.edit_recipe,
+            cancel_editing: self.cancel_editing,
+            update_recipe: self.update_recipe
         }
+
     });
 
-    self.get_reviews();
-    self.vue.$on('update_stars', function (stars, disabled) {
-        if (!disabled) {
-            self.vue.stars = stars;
-        }
-    });
+    self.get_recipes();
     $("#vue-div").show();
 
-
-
- };
-
-
-Vue.component('star-rating', {
-
-  props: {
-    'value': Number,
-    'name': String,
-    'id': String,
-    'disabled': Boolean,
-    'required': Boolean
-  },
-
-
-
-  template: '<span class="star-rating">\
-        <label class="star-rating__star" v-for="rating in ratings" \
-        :class="{\'is-selected\': ((mutableValue >= rating) && mutableValue != null), \'is-disabled\': disabled}" \
-        v-on:click="set(rating)" v-on:mouseover="star_over(rating)" v-on:mouseout="star_out">\
-        <input class="star-rating star-rating__checkbox" type="radio" mutable-value="rating" name="name" \
-        v-model="mutableValue" :disabled="disabled">★</label></span>',
-
-  /*
-   * Initial state of the component's data.
-   */
-  data: function() {
-    return {
-      mutableValue: this.value,
-      temp_value: null,
-      ratings: [1, 2, 3, 4, 5]
-    };
-
-  },
-
-  methods: {
-    /*
-     * Behaviour of the stars on mouseover.
-     */
-    star_over: function(index) {
-      var self = this;
-
-      if (!this.disabled) {
-        this.temp_value = this.mutableValuevalue;
-        return this.mutableValue = index;
-      }
-
-    },
-
-    /*
-     * Behaviour of the stars on mouseout.
-     */
-    star_out: function() {
-      var self = this;
-
-      if (!this.disabled) {
-        return this.mutableValue = this.temp_value;
-      }
-    },
-
-    /*
-     * Set the rating of the score
-     */
-    set: function(value) {
-      var self = this;
-      this.$parent.$emit('update_stars', value, this.disabled);
-
-      if (!this.disabled) {
-      	// Make some call to a Laravel API using Vue.Resource
-
-        this.temp_value = value;
-        return this.mutableValue = value;
-      }
-    }
-  }
-
-});
-
-
+    return self;
+};
 
 var APP = null;
-
 
 // This will make everything accessible from the js console;
 // for instance, self.x above would be accessible as APP.x

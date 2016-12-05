@@ -1,8 +1,15 @@
 {{extend 'layout.html'}}
 
-<html>
 {{logged_in = auth.user_id is not None}}
+{{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var recipes_url = "{{=URL('api', 'get_recipes')}}";
+    var add_recipe_url = "{{=URL('api', 'add_recipe', user_signature=True)}}";
+    var del_recipe_url = "{{=URL('api', 'del_recipe', user_signature=True)}}";
+    var update_recipe_url = "{{=URL('api', 'update_recipe', user_signature=True)}}";
+</script>
+{{end}}
 	<head>
 
 		<!--<title>InMinutes</title>-->
@@ -78,8 +85,6 @@
             }
 
             .recipe_listing{
-                margin-left: auto;
-                margin-right: auto;
                 text-align: center;
                 font-style: italic;
                 font-weight: 900;
@@ -100,9 +105,9 @@
 			}
 
 			nav ul {
-				list-style-type: none;
+				list-style-type: square;
 				margin: 0;
-				padding: 0;
+				padding: 5px;
 			}
 
 			nav ul a {
@@ -132,7 +137,7 @@
 
 	<body>
 
-
+<div id="vue-div" class="display:none">
 		<div id="wrapper">
 
 			<main>
@@ -160,7 +165,7 @@
 
                 <div class="recipe_bottom" style="padding:20px;">
                     <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=p.id)}}'">
-                    <div style="background-color:#e4e4e4;width:25%px; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
+                    <div style="background-color:#e4e4e4;width:100%; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
                         <p><i class="fa fa-exclamation-circle"></i> NO IMAGE </p>
                     </div>
                         <div class="recipe text-center" style="background-color:floralwhite;">
@@ -196,7 +201,7 @@
                     <div class="innertube">
                     <div class="sidetitle"><h3>Worldly Cuisine</h3></div>
 					<ul>
-                        <li><a href="#">All</a></li>
+                        <li><a href="{{=URL('default', 'index')}}">All</a></li>
                         {{for cuisine in cuisines:}}
                             <li> <a href="#"> {{=cuisine.name}} </a> </li>
                         {{pass}}
@@ -218,19 +223,14 @@
 
 		</div>
 
-		<footer id="footer">
-			<div class="innertube">
-				<p></p>
-			</div>
-		</footer>
-
-	</body>
-</html>
-<script src="{{=URL('static', 'js/default_index.js')}}"></script>
 
     <div v-if="has_more" class="show_more bottom color">
                 <button id="load-more" v-on:click="get_more()">Load More</button> <br>
-            </div>
+    </div>
+</div>
+	</body>
 
 
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
     <!--4 pages, main, add new, search, recipe::: cookbook tab is for search by ownuser-->
