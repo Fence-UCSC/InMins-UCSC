@@ -15,97 +15,91 @@
         background-size:50px 50px;
     }
 
-    .border {
-     border-style: groove;
-     border-color: white;
-     border-radius: 5px 5px;
-}
-
-   .white{
-    background: floralwhite;
-
-}
-    .logo {
-        margin-left: 350px;
-        margin-right: 350px;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        text-align: center;
-        background-color: whitesmoke;
-    }
-
-    .intro{
-        color: green;
-        font-size:4em;
-        text-align: center;
-        background-color: floralwhite;
-        border-style: groove;
+    .title-boarder {
+        background: rgba(230, 230, 230, 0.95);
         padding: 20px;
         margin-bottom: 10px;
         font-weight: 700;
+    }
 
+    .main-title {
+        color: green;
+        font-size:4.3em;
+        text-align: center;
+    }
+
+    .sub-title {
+        color: dimgray;
+        font-size:1.5em;
+        text-align: center;
+    }
+
+    .content-border {
+        background: rgba(230, 230, 230, 0.98);
+        padding: 50px;
     }
 
     .title{
-        font-weight: 900;
-        font-size: 2.2em;
+        font-weight: 600;
+        font-size: 2.1em;
         padding: 5px;
+        color: #f47c3c;
     }
 
     .detail{
         font-size: 1.2em;
-        padding: 10px;
+        padding: 15px;
         margin: 0px 0px 20px 20px;
+        background-color: rgba(250, 250, 250, 1);
+        border-radius: 10px;
     }
 
 </style>
 
 <body>
-<div>
-     <div class ="intro row">
+
+     <div class ="row title-boarder">
          <div class="col-md-12">
-            {{=recipe.name}}
+             <div class="main-title">
+                {{=recipe.name}}
+             </div>
+
+             <div class="sub-title">
+                 {{cuisines = db(db.cuisines.id==recipe.cuisines).select().first()}}
+                 {{mealType = db(db.mealType.id==recipe.mealType).select().first()}}
+                 <span> | </span>
+                 <span>{{=cuisines.name}}</span>
+                 <span> | </span>
+                 <span>{{=mealType.name}}</span>
+                 <span> | </span>
+             </div>
          </div>
      </div>
-     <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
-</div>
-<!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->
-<div class = "row border white" style="padding: 30px">
 
 
-    <div>
-        {{cuisines = db(db.cuisines.id==recipe.cuisines).select().first()}}
-        <div class="title">Cuisine:</div>
-        <div class="detail">{{=cuisines.name}}</div>
+    <div class = "row content-border">
+        <div>
+            <div class="title">Description:</div>
+            <div class="detail">{{=recipe.description}}</div>
+        </div>
+
+        <div>
+            <div class="title">Ingredient:</div>
+            <div class="detail">{{=recipe.ingredient}}</div>
+        </div>
+
+        <div>
+            <div class="title">Video:</div>
+            <div id='vURL' class="hidden">{{=recipe.vURL}}</div>
+            {{if recipe.vURL:}}
+                <div class="center"><div id="player"></div></div>
+            {{else:}}
+                <div class="detail">No Video is Available</div>
+            {{pass}}
+        </div>
     </div>
 
-    <div>
-        {{mealType = db(db.mealType.id==recipe.mealType).select().first()}}
-        <div class="title">Meal Type:</div>
-        <div class="detail">{{=mealType.name}}</div>
-    </div>
-
-    <div>
-        <div class="title">Description:</div>
-        <div class="detail">{{=recipe.description}}</div>
-    </div>
-
-    <div>
-        <div class="title">Ingredient:</div>
-        <div class="detail">{{=recipe.ingredient}}</div>
-    </div>
-
-    <div>
-        <div class="title">Video:</div>
-        <div id='vURL' class="hidden">{{=recipe.vURL}}</div>
-        {{if recipe.vURL:}}
-            <div class="center"><div id="player"></div></div>
-        {{else:}}
-            <div class="detail">No Video is Available</div>
-        {{pass}}
-    </div>
-
-</div>
+</body>
 
 <script>
     var tag = document.createElement('script');
@@ -145,4 +139,3 @@
         }
 </script>
 
-</body>
