@@ -33,6 +33,7 @@
         text-align: center;
         background-color: whitesmoke;
     }
+
     .intro{
         color: green;
         font-size:4em;
@@ -45,48 +46,99 @@
 
     }
 
+    .title{
+        font-weight: 900;
+        font-size: 2.2em;
+        padding: 5px;
+    }
+
+    .detail{
+        font-size: 1.2em;
+        padding: 10px;
+        margin: 0px 0px 20px 20px;
+    }
 
 </style>
 
 <body>
 <div>
-     <div class ="intro">
-         {{if recipe:}}
-             {{=recipe.name}}
-         {{pass}}
+     <div class ="intro row">
+         <div class="col-md-12">
+            {{=recipe.name}}
+         </div>
      </div>
      <!--<h1><strong><center/>InMins<i class="fa fa-cutlery" aria-hidden="true"></i> Recipe <i class="fa fa-book" aria-hidden="true"></i><center/></strong><h1/> -->
 </div>
 <!-- <em><a href="{{=URL('default', 'index')}}">Home</a></em> -->
-<div class = "border white">
-  <strong><h3>Recipe:</h3></strong>
+<div class = "row border white" style="padding: 30px">
 
-        <ol>
-            Cuisine:
-        </ol>
-        <br>
 
-        <strong><h3>Video:</h3></strong>
-        <ol>
-        </ol>
-        <br>
-        <strong><h3>Description:</h3></strong>
+    <div>
+        {{cuisines = db(db.cuisines.id==recipe.cuisines).select().first()}}
+        <div class="title">Cuisine:</div>
+        <div class="detail">{{=cuisines.name}}</div>
+    </div>
 
-        <ul>
-            <li>Time: _</li>
-            <li>Serves: _</li>
-        </ul>
-        <br>
+    <div>
+        {{mealType = db(db.mealType.id==recipe.mealType).select().first()}}
+        <div class="title">Meal Type:</div>
+        <div class="detail">{{=mealType.name}}</div>
+    </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Comments</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <br>
+    <div>
+        <div class="title">Description:</div>
+        <div class="detail">{{=recipe.description}}</div>
+    </div>
+
+    <div>
+        <div class="title">Ingredient:</div>
+        <div class="detail">{{=recipe.ingredient}}</div>
+    </div>
+
+    <div>
+        <div class="title">Video:</div>
+        <div id='vURL' class="hidden">{{=recipe.vURL}}</div>
+        <div class="center"><div id="player"></div></div>
+    </div>
+
 </div>
+
+<script>
+    var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+              height: '390',
+              width: '640',
+              videoId: '',
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+        }
+
+        function onPlayerReady(event) {
+            var vURL = $('#vURL').text();
+            var url_tokens = vURL.split('?');
+            var args_tokens = url_tokens[1].split('=');
+            var vId = args_tokens[1];
+            console.log(vId);
+            player.loadVideoById(vId);
+            stopVideo();
+        }
+
+        function onPlayerStateChange(event) {
+        }
+
+        function stopVideo() {
+            player.stopVideo();
+        }
+</script>
 
 </body>
