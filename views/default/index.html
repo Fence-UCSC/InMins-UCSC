@@ -66,6 +66,14 @@
 
             }
 
+            .recipe_bottom{
+                object-fit: contain;
+                object-position: center;
+                width: 100%;
+                height: 20%;
+
+            }
+
             .titler{
                 text-align: center;
                 font-size: 60px;
@@ -88,6 +96,9 @@
                 text-align: center;
                 font-style: italic;
                 font-weight: 900;
+                padding: 20px;
+                width: 100%;
+                height 20%;
             }
 
 
@@ -129,6 +140,7 @@
             .color {
                 color: green;
             }
+
 		</style>
 
 		<script type="text/javascript">
@@ -164,27 +176,24 @@
 
             {{for p in recipes:}}
 
-                <div class="recipe_bottom" style="padding:20px;">
+                <div class="recipe_bottom">
                     <div class="thumbnail" onclick="window.location='{{=URL('recipe', args=p.id)}}'">
-                        {{if p.image:}}
+                        <div class="image">{{if p.image:}}</div>
                             <img src="{{=URL('download', args=p.image)}}"/>
+                            <div class="recipe text-center" style="background-color:floralwhite;">
+                        <div class="description">{{=p.name}}</div>
+                    <div class="uname">By {{=p.username}}</div>
                         {{else:}}
                             <div style="background-color:#e4e4e4;width:100%; margin-left:auto; margin-right:auto;height:200px;font-size:2em; padding:20px">
                                 <p><i class="fa fa-exclamation-circle"></i> NO IMAGE</p>
                             </div>
-                        {{pass}}
-                    </div>
-                        <div class="recipe text-center" style="background-color:floralwhite;">
-                        <div class="description">{{=p.name}}</div>
-                    <div class="uname">By {{=p.username}}</div>
+                                <div class="recipe text-center" style="background-color:floralwhite;">
+                                    <div class="description">{{=p.name}}</div>
+                                    <div class="uname">By {{=p.username}}</div>
 
-                      <!-- <div class="createdon"> {{=p.created_on}}</div>-->
-                            &nbsp
-                            &nbsp
-                            &nbsp
-                       <!--{{if p.created_on - p.updated_on:}}
-                             <span class="update">Edited on: {{=p.updated_on}}</span>
-                        {{else: pass}}-->
+                    </div>
+                            {{pass}}
+
                     </div>
                 </div>
 
