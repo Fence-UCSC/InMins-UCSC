@@ -8,24 +8,6 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
-def mycookbook():
-    cuisines = db(db.cuisines).select(db.cuisines.name)
-    mealType = db(db.mealType).select(db.mealType.name)
-    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 4))
-    recipe = db(db.recipe.id == request.args(0)).select().first()
-    return dict(cuisines=cuisines,
-                mealType=mealType,
-                recipes=recipes,
-                recipe=recipe,
-                )
-    #row=()
-    #return dict(row=row)
-
-
-def test():
-    recipes = db(db.recipe).select(orderby=~db.recipe.created_on, limitby=(0, 20))
-    return dict(recipes=recipes)
-
 def recipeForm():
     form = None
     recipe = None
